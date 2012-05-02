@@ -1,0 +1,6 @@
+#define v002_FBO_CLASS_NAME_REPLACE_ME v002OpenKinectFBO
+#define v002_SHADER_CLASS_NAME_REPLACE_ME v002OpenKinectShader
+
+#ifdef __OBJC__
+	#import <Quartz/Quartz.h>
+#endif

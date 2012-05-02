@@ -1,0 +1,807 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeExecutable = 23E90CA60A83C53500A6A40A /* Quartz Composer */;
+		activeTarget = 233E2C640A83C768005A62DF /* Build & Copy */;
+		addToTargets = (
+			8D5B49AC048680CD000E48DA /* v002 Open Kinect */,
+		);
+		breakpoints = (
+			1B50EBEB131F3751002E1C10 /* v002_Open_KinectPlugIn.m:516 */,
+			1B05E7A0137B13520032471B /* v002_Open_KinectPlugIn.m:468 */,
+			1B05E7A2137B13530032471B /* v002_Open_KinectPlugIn.m:468 */,
+		);
+		codeSenseManager = 23E90CA50A83C4F400A6A40A /* Code sense */;
+		executables = (
+			23E90CA60A83C53500A6A40A /* Quartz Composer */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXExecutablesDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXExecutablesDataSource_NameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					22,
+					300,
+					400,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXExecutablesDataSource_ActiveFlagID,
+					PBXExecutablesDataSource_NameID,
+					PBXExecutablesDataSource_CommentsID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					948,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXFindDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					200,
+					1026,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFindDataSource_MessageID,
+					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					908,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 348442162;
+			PBXWorkspaceStateSaveDate = 348442162;
+		};
+		perUserProjectItems = {
+			1B05E694137B075F0032471B /* PBXTextBookmark */ = 1B05E694137B075F0032471B /* PBXTextBookmark */;
+			1B05E7EB137B1A890032471B /* PBXTextBookmark */ = 1B05E7EB137B1A890032471B /* PBXTextBookmark */;
+			1B37607E147485660072D6B0 /* PBXTextBookmark */ = 1B37607E147485660072D6B0 /* PBXTextBookmark */;
+			1B37607F147485660072D6B0 /* PBXTextBookmark */ = 1B37607F147485660072D6B0 /* PBXTextBookmark */;
+			1B37608814748F060072D6B0 /* PBXTextBookmark */ = 1B37608814748F060072D6B0 /* PBXTextBookmark */;
+			1B37608914748F060072D6B0 /* PBXTextBookmark */ = 1B37608914748F060072D6B0 /* PBXTextBookmark */;
+			1B5345F01423C54B00E7528F /* PBXTextBookmark */ = 1B5345F01423C54B00E7528F /* PBXTextBookmark */;
+			1B5584351450CAAC0012DE4E /* PBXTextBookmark */ = 1B5584351450CAAC0012DE4E /* PBXTextBookmark */;
+			1B5584361450CAAC0012DE4E /* PBXTextBookmark */ = 1B5584361450CAAC0012DE4E /* PBXTextBookmark */;
+			1B5584371450CAAC0012DE4E /* PBXTextBookmark */ = 1B5584371450CAAC0012DE4E /* PBXTextBookmark */;
+			1B5584381450CAAC0012DE4E /* PBXTextBookmark */ = 1B5584381450CAAC0012DE4E /* PBXTextBookmark */;
+			1B55843A1450CAAC0012DE4E /* PBXTextBookmark */ = 1B55843A1450CAAC0012DE4E /* PBXTextBookmark */;
+			1B55843B1450CAAC0012DE4E /* PBXTextBookmark */ = 1B55843B1450CAAC0012DE4E /* PBXTextBookmark */;
+			1B55843C1450CAAC0012DE4E /* PBXTextBookmark */ = 1B55843C1450CAAC0012DE4E /* PBXTextBookmark */;
+			1B5584821450CDAF0012DE4E /* PBXTextBookmark */ = 1B5584821450CDAF0012DE4E /* PBXTextBookmark */;
+			1B55848F1450CE080012DE4E /* PBXTextBookmark */ = 1B55848F1450CE080012DE4E /* PBXTextBookmark */;
+			1B5584A31450CE6D0012DE4E /* PBXTextBookmark */ = 1B5584A31450CE6D0012DE4E /* PBXTextBookmark */;
+			1B5584EC1450D2370012DE4E /* PBXTextBookmark */ = 1B5584EC1450D2370012DE4E /* PBXTextBookmark */;
+			1B5585261450DB840012DE4E /* PBXTextBookmark */ = 1B5585261450DB840012DE4E /* PBXTextBookmark */;
+			1B5585491450DCEB0012DE4E /* PBXTextBookmark */ = 1B5585491450DCEB0012DE4E /* PBXTextBookmark */;
+			1B55854A1450DCEB0012DE4E /* PBXTextBookmark */ = 1B55854A1450DCEB0012DE4E /* PBXTextBookmark */;
+			1B55859D1450FC140012DE4E /* PBXTextBookmark */ = 1B55859D1450FC140012DE4E /* PBXTextBookmark */;
+			1B55859E1450FC140012DE4E /* PBXTextBookmark */ = 1B55859E1450FC140012DE4E /* PBXTextBookmark */;
+			1B5585A61450FC4A0012DE4E /* PBXTextBookmark */ = 1B5585A61450FC4A0012DE4E /* PBXTextBookmark */;
+			1B5586A114512BDC0012DE4E /* PBXTextBookmark */ = 1B5586A114512BDC0012DE4E /* PBXTextBookmark */;
+			1B5586A214512BDC0012DE4E /* PlistBookmark */ = 1B5586A214512BDC0012DE4E /* PlistBookmark */;
+			1B5D6483141BB39600819A9D /* PBXTextBookmark */ = 1B5D6483141BB39600819A9D /* PBXTextBookmark */;
+			1B5D6484141BB39600819A9D /* PBXTextBookmark */ = 1B5D6484141BB39600819A9D /* PBXTextBookmark */;
+			1B5D648C141BB3E000819A9D /* PlistBookmark */ = 1B5D648C141BB3E000819A9D /* PlistBookmark */;
+			1B8CB4CE14C4CE3A00F622A4 /* PBXTextBookmark */ = 1B8CB4CE14C4CE3A00F622A4 /* PBXTextBookmark */;
+			1B8CB4CF14C4CE3A00F622A4 /* PBXTextBookmark */ = 1B8CB4CF14C4CE3A00F622A4 /* PBXTextBookmark */;
+			1BE790AB137C8C89002CF87B /* PBXTextBookmark */ = 1BE790AB137C8C89002CF87B /* PBXTextBookmark */;
+			1BE9D60F13662C4100379074 /* PBXTextBookmark */ = 1BE9D60F13662C4100379074 /* PBXTextBookmark */;
+			1BE9D6141366348800379074 /* PBXTextBookmark */ = 1BE9D6141366348800379074 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 23E90CA40A83C4F400A6A40A /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	16AA5C440A7EEE7300888E31 /* v002 Open Kinect_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 825}}";
+			sepNavSelRange = "{113, 0}";
+			sepNavVisRange = "{0, 173}";
+		};
+	};
+	16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 1677}}";
+			sepNavSelRange = "{1904, 0}";
+			sepNavVisRange = "{1219, 1513}";
+			sepNavVisRect = "{{0, 0}, {839, 550}}";
+		};
+	};
+	16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1440, 10192}}";
+			sepNavSelRange = "{19024, 0}";
+			sepNavVisRange = "{18108, 2388}";
+		};
+	};
+	1B05E55E137AEDF00032471B /* v002FBO.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1054, 883}}";
+			sepNavSelRange = "{561, 109}";
+			sepNavVisRange = "{0, 1313}";
+			sepNavWindowFrame = "{{15, 12}, {1113, 1011}}";
+		};
+	};
+	1B05E55F137AEDF00032471B /* v002FBO.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 2353}}";
+			sepNavSelRange = "{4425, 159}";
+			sepNavVisRange = "{2866, 1727}";
+			sepNavWindowFrame = "{{15, 12}, {1113, 1011}}";
+		};
+	};
+	1B05E564137AEDF00032471B /* v002Shader.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1279, 809}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1341}";
+		};
+	};
+	1B05E565137AEDF00032471B /* v002Shader.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1279, 4849}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{721, 1401}";
+		};
+	};
+	1B05E5CC137AF7BD0032471B /* glext.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = glext.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Headers/glext.h;
+		sourceTree = "<absolute>";
+	};
+	1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 861}}";
+			sepNavSelRange = "{294, 0}";
+			sepNavVisRange = "{0, 294}";
+		};
+	};
+	1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 1482}}";
+			sepNavSelRange = "{350, 0}";
+			sepNavVisRange = "{0, 0}";
+		};
+	};
+	1B05E694137B075F0032471B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E695137B075F0032471B /* cssmconfig.h */;
+		name = "cssmconfig.h: 73";
+		rLen = 8;
+		rLoc = 1959;
+		rType = 0;
+		vrLen = 1212;
+		vrLoc = 986;
+	};
+	1B05E695137B075F0032471B /* cssmconfig.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = cssmconfig.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Security.framework/Versions/A/Headers/cssmconfig.h;
+		sourceTree = "<absolute>";
+	};
+	1B05E6AE137B09300032471B /* libusb.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 17472}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{4231, 1517}";
+		};
+	};
+	1B05E6CB137B0AC00032471B /* libfreenect.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1594, 6812}}";
+			sepNavSelRange = "{3696, 25}";
+			sepNavVisRange = "{3199, 4011}";
+			sepNavWindowFrame = "{{15, 12}, {1113, 1011}}";
+		};
+	};
+	1B05E6CE137B0AC00032471B /* CMakeLists.txt */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = text;
+		name = CMakeLists.txt;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/CMakeLists.txt";
+		sourceTree = "<absolute>";
+	};
+	1B05E6CF137B0AC00032471B /* core.c */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.c;
+		name = core.c;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/core.c";
+		sourceTree = "<absolute>";
+	};
+	1B05E6D0137B0AC00032471B /* freenect_internal.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = freenect_internal.h;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/freenect_internal.h";
+		sourceTree = "<absolute>";
+	};
+	1B05E6D1137B0AC00032471B /* libfreenect.pc.in */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = text;
+		name = libfreenect.pc.in;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/libfreenect.pc.in";
+		sourceTree = "<absolute>";
+	};
+	1B05E6D2137B0AC00032471B /* tilt.c */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.c;
+		name = tilt.c;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/tilt.c";
+		sourceTree = "<absolute>";
+	};
+	1B05E6D3137B0AC00032471B /* usb_libusb10.c */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.c;
+		name = usb_libusb10.c;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/usb_libusb10.c";
+		sourceTree = "<absolute>";
+	};
+	1B05E6D4137B0AC00032471B /* usb_libusb10.h */ = {
+		isa = PBXFileReference;
+		fileEncoding = 4;
+		lastKnownFileType = sourcecode.c.h;
+		name = usb_libusb10.h;
+		path = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/OpenKinect/src/usb_libusb10.h";
+		sourceTree = "<absolute>";
+	};
+	1B05E7A0137B13520032471B /* v002_Open_KinectPlugIn.m:468 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */;
+		functionName = "-execute:atTime:withArguments:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 468;
+		location = "v002 Open Kinect";
+		modificationTime = 348442167.004632;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	1B05E7A2137B13530032471B /* v002_Open_KinectPlugIn.m:468 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */;
+		functionName = "-execute:atTime:withArguments:";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 468;
+		location = "v002 Open Kinect";
+		modificationTime = 348442167.004742;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	1B05E7EB137B1A890032471B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5CC137AF7BD0032471B /* glext.h */;
+		name = "glext.h: 1845";
+		rLen = 20;
+		rLoc = 83472;
+		rType = 0;
+		vrLen = 3863;
+		vrLoc = 81581;
+	};
+	1B37607E147485660072D6B0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */;
+		name = "v002_Open_KinectPlugIn.h: 84";
+		rLen = 0;
+		rLoc = 1904;
+		rType = 0;
+		vrLen = 1513;
+		vrLoc = 1219;
+	};
+	1B37607F147485660072D6B0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */;
+		name = "v002_Open_KinectPlugIn.m: 493";
+		rLen = 0;
+		rLoc = 19024;
+		rType = 0;
+		vrLen = 2388;
+		vrLoc = 18108;
+	};
+	1B37608814748F060072D6B0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */;
+		name = "v002.OpenKinectDepth.frag: 15";
+		rLen = 0;
+		rLoc = 350;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	1B37608914748F060072D6B0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */;
+		name = "v002.OpenKinectDepth.frag: 106";
+		rLen = 0;
+		rLoc = 3663;
+		rType = 0;
+		vrLen = 1557;
+		vrLoc = 2231;
+	};
+	1B4EA24D137DC1FE00F72EF9 /* v002CGLMacro.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1126, 36933}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 2504}";
+		};
+	};
+	1B50EBEB131F3751002E1C10 /* v002_Open_KinectPlugIn.m:516 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */;
+		functionName = "depth_cb()";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 516;
+		location = "v002 Open Kinect";
+		modificationTime = 348442167.004524;
+		originalNumberOfMultipleMatches = 1;
+		state = 1;
+	};
+	1B5345F01423C54B00E7528F /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B5345F11423C54B00E7528F /* limits.h */;
+		name = "limits.h: 70";
+		rLen = 64;
+		rLoc = 3350;
+		rType = 0;
+		vrLen = 2634;
+		vrLoc = 1921;
+	};
+	1B5345F11423C54B00E7528F /* limits.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = limits.h;
+		path = /Developer326/SDKs/MacOSX10.6.sdk/usr/include/i386/limits.h;
+		sourceTree = "<absolute>";
+	};
+	1B5584351450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6D3137B0AC00032471B /* usb_libusb10.c */;
+		name = "usb_libusb10.c: 23";
+		rLen = 0;
+		rLoc = 1028;
+		rType = 0;
+		vrLen = 2026;
+		vrLoc = 0;
+	};
+	1B5584361450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6D2137B0AC00032471B /* tilt.c */;
+		name = "tilt.c: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2158;
+		vrLoc = 0;
+	};
+	1B5584371450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6D1137B0AC00032471B /* libfreenect.pc.in */;
+		name = "libfreenect.pc.in: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 346;
+		vrLoc = 0;
+	};
+	1B5584381450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6CE137B0AC00032471B /* CMakeLists.txt */;
+		name = "CMakeLists.txt: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2678;
+		vrLoc = 0;
+	};
+	1B55843A1450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6D4137B0AC00032471B /* usb_libusb10.h */;
+		name = "usb_libusb10.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1791;
+		vrLoc = 1472;
+	};
+	1B55843B1450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6AE137B09300032471B /* libusb.h */;
+		name = "libusb.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1517;
+		vrLoc = 4231;
+	};
+	1B55843C1450CAAC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6D0137B0AC00032471B /* freenect_internal.h */;
+		name = "freenect_internal.h: 141";
+		rLen = 0;
+		rLoc = 3973;
+		rType = 0;
+		vrLen = 1694;
+		vrLoc = 3488;
+	};
+	1B5584501450CC860012DE4E /* audio.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1202, 2912}}";
+			sepNavSelRange = "{1146, 0}";
+			sepNavVisRange = "{0, 2744}";
+		};
+	};
+	1B5584511450CC860012DE4E /* cameras.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1433, 18226}}";
+			sepNavSelRange = "{12384, 0}";
+			sepNavVisRange = "{11907, 897}";
+		};
+	};
+	1B5584581450CC860012DE4E /* loader.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1340, 4199}}";
+			sepNavSelRange = "{1851, 0}";
+			sepNavVisRange = "{1429, 1059}";
+		};
+	};
+	1B55845A1450CC860012DE4E /* registration.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1300, 4914}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{11332, 2231}";
+		};
+	};
+	1B5584671450CC9B0012DE4E /* libfreenect-registration.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {708, 1690}}";
+			sepNavSelRange = "{2979, 18}";
+			sepNavVisRange = "{1749, 1934}";
+			sepNavWindowFrame = "{{15, 4}, {767, 1024}}";
+		};
+	};
+	1B5584821450CDAF0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B5584501450CC860012DE4E /* audio.c */;
+		name = "audio.c: 27";
+		rLen = 0;
+		rLoc = 1146;
+		rType = 0;
+		vrLen = 2744;
+		vrLoc = 0;
+	};
+	1B55848F1450CE080012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 16AA5C440A7EEE7300888E31 /* v002 Open Kinect_Prefix.pch */;
+		name = "v002 Open Kinect_Prefix.pch: 2";
+		rLen = 0;
+		rLoc = 113;
+		rType = 0;
+		vrLen = 173;
+		vrLoc = 0;
+	};
+	1B5584A31450CE6D0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B5584581450CC860012DE4E /* loader.c */;
+		name = "loader.c: 92";
+		rLen = 0;
+		rLoc = 3136;
+		rType = 0;
+		vrLen = 1857;
+		vrLoc = 2249;
+	};
+	1B5584EC1450D2370012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B5584671450CC9B0012DE4E /* libfreenect-registration.h */;
+		name = "libfreenect-registration.h: 122";
+		rLen = 95;
+		rLoc = 3519;
+		rType = 0;
+		vrLen = 1376;
+		vrLoc = 1217;
+	};
+	1B5585261450DB840012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B55845A1450CC860012DE4E /* registration.c */;
+		name = "registration.c: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2231;
+		vrLoc = 11332;
+	};
+	1B5585491450DCEB0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6CB137B0AC00032471B /* libfreenect.h */;
+		name = "libfreenect.h: 80";
+		rLen = 25;
+		rLoc = 3696;
+		rType = 0;
+		vrLen = 4011;
+		vrLoc = 3199;
+	};
+	1B55854A1450DCEB0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B5584511450CC860012DE4E /* cameras.c */;
+		name = "cameras.c: 389";
+		rLen = 27;
+		rLoc = 14083;
+		rType = 0;
+		vrLen = 2043;
+		vrLoc = 13198;
+	};
+	1B55859D1450FC140012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */;
+		name = "v002_Open_KinectPlugIn.h: 84";
+		rLen = 0;
+		rLoc = 1905;
+		rType = 0;
+		vrLen = 1148;
+		vrLoc = 1565;
+	};
+	1B55859E1450FC140012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */;
+		name = "v002_Open_KinectPlugIn.m: 453";
+		rLen = 0;
+		rLoc = 17735;
+		rType = 0;
+		vrLen = 1440;
+		vrLoc = 16438;
+	};
+	1B5585A61450FC4A0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */;
+		name = "v002.OpenKinectDepth.vert: 2";
+		rLen = 24;
+		rLoc = 24;
+		rType = 0;
+		vrLen = 294;
+		vrLoc = 0;
+	};
+	1B5586A114512BDC0012DE4E /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */;
+		name = "v002.OpenKinectDepth.vert: 12";
+		rLen = 0;
+		rLoc = 294;
+		rType = 0;
+		vrLen = 294;
+		vrLoc = 0;
+	};
+	1B5586A214512BDC0012DE4E /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	1B5D6483141BB39600819A9D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B4EA24D137DC1FE00F72EF9 /* v002CGLMacro.h */;
+		name = "v002CGLMacro.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 2504;
+		vrLoc = 0;
+	};
+	1B5D6484141BB39600819A9D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E6CF137B0AC00032471B /* core.c */;
+		name = "core.c: 70";
+		rLen = 94;
+		rLoc = 1991;
+		rType = 0;
+		vrLen = 1314;
+		vrLoc = 1318;
+	};
+	1B5D648C141BB3E000819A9D /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleShortVersionString,
+		);
+		name = "/SVNRepositories/v002/v002 Projects/v002 QC Plugins/v002 Open Kinect/Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	1B8CB4CE14C4CE3A00F622A4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */;
+		name = "v002.OpenKinectDepth.frag: 15";
+		rLen = 0;
+		rLoc = 350;
+		rType = 0;
+		vrLen = 0;
+		vrLoc = 0;
+	};
+	1B8CB4CF14C4CE3A00F622A4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */;
+		name = "v002.OpenKinectDepth.frag: 106";
+		rLen = 0;
+		rLoc = 3663;
+		rType = 0;
+		vrLen = 1555;
+		vrLoc = 2231;
+	};
+	1BE790AB137C8C89002CF87B /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1B05E564137AEDF00032471B /* v002Shader.h */;
+		name = "v002Shader.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1341;
+		vrLoc = 0;
+	};
+	1BE9D60F13662C4100379074 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1BE9D61013662C4100379074 /* math.h */;
+		name = "math.h: 536";
+		rLen = 37;
+		rLoc = 21455;
+		rType = 0;
+		vrLen = 1732;
+		vrLoc = 20553;
+	};
+	1BE9D61013662C4100379074 /* math.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = math.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/usr/include/architecture/i386/math.h;
+		sourceTree = "<absolute>";
+	};
+	1BE9D6141366348800379074 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1BE9D6151366348800379074 /* CGBase.h */;
+		name = "CGBase.h: 96";
+		rLen = 7;
+		rLoc = 2782;
+		rType = 0;
+		vrLen = 1285;
+		vrLoc = 1819;
+	};
+	1BE9D6151366348800379074 /* CGBase.h */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = sourcecode.c.h;
+		name = CGBase.h;
+		path = /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Headers/CGBase.h;
+		sourceTree = "<absolute>";
+	};
+	233E2C640A83C768005A62DF /* Build & Copy */ = {
+		activeExec = 0;
+	};
+	23E90CA40A83C4F400A6A40A /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+		scmType = "";
+	};
+	23E90CA50A83C4F400A6A40A /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	23E90CA60A83C53500A6A40A /* Quartz Composer */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		launchableReference = 23E90CA70A83C53500A6A40A /* Quartz Composer.app */;
+		libgmallocEnabled = 0;
+		name = "Quartz Composer";
+		savedGlobals = {
+		};
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
+		variableFormatDictionary = {
+		};
+	};
+	23E90CA70A83C53500A6A40A /* Quartz Composer.app */ = {
+		isa = PBXFileReference;
+		lastKnownFileType = wrapper.application;
+		name = "Quartz Composer.app";
+		path = "/Developer/Applications/Quartz Composer.app";
+		sourceTree = "<absolute>";
+	};
+	8D5B49AC048680CD000E48DA /* v002 Open Kinect */ = {
+		activeExec = 0;
+	};
+}

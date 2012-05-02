@@ -1,0 +1,495 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		233E2C640A83C768005A62DF /* Build & Copy */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 233E2D890A83C7AC005A62DF /* Build configuration list for PBXAggregateTarget "Build & Copy" */;
+			buildPhases = (
+				233E2C690A83C783005A62DF /* ShellScript */,
+			);
+			dependencies = (
+				233E2C660A83C76D005A62DF /* PBXTargetDependency */,
+			);
+			name = "Build & Copy";
+			productName = "Build & Install";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		16BA95420A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */; };
+		16BA96310A7EB9AC001E4983 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BA96300A7EB9AC001E4983 /* Quartz.framework */; };
+		1B05E58B137AF4850032471B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B05E58A137AF4850032471B /* OpenGL.framework */; };
+		1B05E5FD137AFF120032471B /* v002.OpenKinectDepth.vert in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */; };
+		1B05E5FE137AFF120032471B /* v002.OpenKinectDepth.frag in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */; };
+		1B05E6E7137B0B100032471B /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B05E6E6137B0B100032471B /* libusb-1.0.0.dylib */; };
+		1B4EA224137D91D600F72EF9 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B05E6E6137B0B100032471B /* libusb-1.0.0.dylib */; };
+		1B5584601450CC860012DE4E /* cameras.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5584511450CC860012DE4E /* cameras.c */; };
+		1B5584611450CC860012DE4E /* core.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B5584541450CC860012DE4E /* core.c */; };
+		1B5584631450CC860012DE4E /* registration.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B55845A1450CC860012DE4E /* registration.c */; };
+		1B5584641450CC860012DE4E /* tilt.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B55845C1450CC860012DE4E /* tilt.c */; };
+		1B5584651450CC860012DE4E /* usb_libusb10.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B55845D1450CC860012DE4E /* usb_libusb10.c */; };
+		1B56E8E812EE5E3D00240B43 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E8C912EE5BB400240B43 /* Accelerate.framework */; };
+		1B5879921550AFF3006A9933 /* v002FBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798C1550AFF3006A9933 /* v002FBO.m */; };
+		1B5879931550AFF3006A9933 /* v002MasterPluginInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798E1550AFF3006A9933 /* v002MasterPluginInterface.m */; };
+		1B5879941550AFF3006A9933 /* v002Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5879901550AFF3006A9933 /* v002Shader.m */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		233E2C650A83C76D005A62DF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = "v002 Open Kinect";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1B05E609137AFF170032471B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				1B05E5FD137AFF120032471B /* v002.OpenKinectDepth.vert in CopyFiles */,
+				1B05E5FE137AFF120032471B /* v002.OpenKinectDepth.frag in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BAEAD22130CEA5600004F32 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1B4EA224137D91D600F72EF9 /* libusb-1.0.0.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		16AA5C440A7EEE7300888E31 /* v002 Open Kinect_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = "v002 Open Kinect_Prefix.pch"; sourceTree = "<group>"; };
+		16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = v002_Open_KinectPlugIn.h; sourceTree = "<group>"; };
+		16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = v002_Open_KinectPlugIn.m; sourceTree = "<group>"; };
+		16BA96300A7EB9AC001E4983 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = /System/Library/Frameworks/Quartz.framework; sourceTree = "<absolute>"; };
+		1B05E58A137AF4850032471B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = v002.OpenKinectDepth.vert; sourceTree = "<group>"; };
+		1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = v002.OpenKinectDepth.frag; sourceTree = "<group>"; };
+		1B05E6AE137B09300032471B /* libusb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libusb.h; sourceTree = "<group>"; };
+		1B05E6CB137B0AC00032471B /* libfreenect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libfreenect.h; sourceTree = "<group>"; };
+		1B05E6E6137B0B100032471B /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
+		1B5584501450CC860012DE4E /* audio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = audio.c; sourceTree = "<group>"; };
+		1B5584511450CC860012DE4E /* cameras.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cameras.c; sourceTree = "<group>"; };
+		1B5584521450CC860012DE4E /* cameras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cameras.h; sourceTree = "<group>"; };
+		1B5584531450CC860012DE4E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		1B5584541450CC860012DE4E /* core.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = core.c; sourceTree = "<group>"; };
+		1B5584551450CC860012DE4E /* freenect_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freenect_internal.h; sourceTree = "<group>"; };
+		1B5584561450CC860012DE4E /* fwfetcher.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = fwfetcher.py; sourceTree = "<group>"; };
+		1B5584571450CC860012DE4E /* libfreenect.pc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libfreenect.pc.in; sourceTree = "<group>"; };
+		1B5584581450CC860012DE4E /* loader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loader.c; sourceTree = "<group>"; };
+		1B5584591450CC860012DE4E /* loader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loader.h; sourceTree = "<group>"; };
+		1B55845A1450CC860012DE4E /* registration.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = registration.c; sourceTree = "<group>"; };
+		1B55845B1450CC860012DE4E /* registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = registration.h; sourceTree = "<group>"; };
+		1B55845C1450CC860012DE4E /* tilt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tilt.c; sourceTree = "<group>"; };
+		1B55845D1450CC860012DE4E /* usb_libusb10.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = usb_libusb10.c; sourceTree = "<group>"; };
+		1B55845E1450CC860012DE4E /* usb_libusb10.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = usb_libusb10.h; sourceTree = "<group>"; };
+		1B5584661450CC9B0012DE4E /* libfreenect-audio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libfreenect-audio.h"; sourceTree = "<group>"; };
+		1B5584671450CC9B0012DE4E /* libfreenect-registration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "libfreenect-registration.h"; sourceTree = "<group>"; };
+		1B56E8C912EE5BB400240B43 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		1B58798A1550AFF3006A9933 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		1B58798B1550AFF3006A9933 /* v002FBO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002FBO.h; sourceTree = "<group>"; };
+		1B58798C1550AFF3006A9933 /* v002FBO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002FBO.m; sourceTree = "<group>"; };
+		1B58798D1550AFF3006A9933 /* v002MasterPluginInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002MasterPluginInterface.h; sourceTree = "<group>"; };
+		1B58798E1550AFF3006A9933 /* v002MasterPluginInterface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002MasterPluginInterface.m; sourceTree = "<group>"; };
+		1B58798F1550AFF3006A9933 /* v002Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002Shader.h; sourceTree = "<group>"; };
+		1B5879901550AFF3006A9933 /* v002Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002Shader.m; sourceTree = "<group>"; };
+		1B5879911550AFF3006A9933 /* v002UniqueClassNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002UniqueClassNames.h; sourceTree = "<group>"; };
+		1B5879981550B119006A9933 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* v002 Open Kinect.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "v002 Open Kinect.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B56E8E812EE5E3D00240B43 /* Accelerate.framework in Frameworks */,
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				16BA96310A7EB9AC001E4983 /* Quartz.framework in Frameworks */,
+				1B05E58B137AF4850032471B /* OpenGL.framework in Frameworks */,
+				1B05E6E7137B0B100032471B /* libusb-1.0.0.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* Quartz Composer Plug In */ = {
+			isa = PBXGroup;
+			children = (
+				1B5879981550B119006A9933 /* README.md */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = "Quartz Composer Plug In";
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1B05E58A137AF4850032471B /* OpenGL.framework */,
+				16BA96300A7EB9AC001E4983 /* Quartz.framework */,
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+				1B56E8C912EE5BB400240B43 /* Accelerate.framework */,
+				1B05E6E6137B0B100032471B /* libusb-1.0.0.dylib */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				1B05E5F8137AFBE60032471B /* v002.OpenKinectDepth.vert */,
+				1B05E5F9137AFBED0032471B /* v002.OpenKinectDepth.frag */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1B5879891550AFF3006A9933 /* v002 Utilities */,
+				1B05E6C9137B0AC00032471B /* OpenKinect */,
+				1B05E6AD137B09300032471B /* libusb */,
+				16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */,
+				16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* v002 Open Kinect.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1B05E6AD137B09300032471B /* libusb */ = {
+			isa = PBXGroup;
+			children = (
+				1B05E6AE137B09300032471B /* libusb.h */,
+			);
+			path = libusb;
+			sourceTree = "<group>";
+		};
+		1B05E6C9137B0AC00032471B /* OpenKinect */ = {
+			isa = PBXGroup;
+			children = (
+				1B05E6CA137B0AC00032471B /* include */,
+				1B05E6CC137B0AC00032471B /* src */,
+			);
+			path = OpenKinect;
+			sourceTree = "<group>";
+		};
+		1B05E6CA137B0AC00032471B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				1B05E6CB137B0AC00032471B /* libfreenect.h */,
+				1B5584661450CC9B0012DE4E /* libfreenect-audio.h */,
+				1B5584671450CC9B0012DE4E /* libfreenect-registration.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		1B05E6CC137B0AC00032471B /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1B5584501450CC860012DE4E /* audio.c */,
+				1B5584511450CC860012DE4E /* cameras.c */,
+				1B5584521450CC860012DE4E /* cameras.h */,
+				1B5584531450CC860012DE4E /* CMakeLists.txt */,
+				1B5584541450CC860012DE4E /* core.c */,
+				1B5584551450CC860012DE4E /* freenect_internal.h */,
+				1B5584561450CC860012DE4E /* fwfetcher.py */,
+				1B5584571450CC860012DE4E /* libfreenect.pc.in */,
+				1B5584581450CC860012DE4E /* loader.c */,
+				1B5584591450CC860012DE4E /* loader.h */,
+				1B55845A1450CC860012DE4E /* registration.c */,
+				1B55845B1450CC860012DE4E /* registration.h */,
+				1B55845C1450CC860012DE4E /* tilt.c */,
+				1B55845D1450CC860012DE4E /* usb_libusb10.c */,
+				1B55845E1450CC860012DE4E /* usb_libusb10.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		1B5879891550AFF3006A9933 /* v002 Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1B58798A1550AFF3006A9933 /* README.md */,
+				1B58798B1550AFF3006A9933 /* v002FBO.h */,
+				1B58798C1550AFF3006A9933 /* v002FBO.m */,
+				1B58798D1550AFF3006A9933 /* v002MasterPluginInterface.h */,
+				1B58798E1550AFF3006A9933 /* v002MasterPluginInterface.m */,
+				1B58798F1550AFF3006A9933 /* v002Shader.h */,
+				1B5879901550AFF3006A9933 /* v002Shader.m */,
+				1B5879911550AFF3006A9933 /* v002UniqueClassNames.h */,
+			);
+			path = "v002 Utilities";
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				16AA5C440A7EEE7300888E31 /* v002 Open Kinect_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* v002 Open Kinect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "v002 Open Kinect" */;
+			buildPhases = (
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				1BAEAD22130CEA5600004F32 /* CopyFiles */,
+				1B05E609137AFF170032471B /* CopyFiles */,
+				1B9FD37013106FCE00DC4157 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "v002 Open Kinect";
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = "Quartz Composer Plug In";
+			productReference = 8D5B49B6048680CD000E48DA /* v002 Open Kinect.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "v002 Open Kinect" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
+			mainGroup = 089C166AFE841209C02AAC07 /* Quartz Composer Plug In */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* v002 Open Kinect */,
+				233E2C640A83C768005A62DF /* Build & Copy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1B9FD37013106FCE00DC4157 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -change /usr/local/lib/libusb-1.0.0.dylib @loader_path/../Frameworks/libusb-1.0.0.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.plugin/Contents/MacOS/$PRODUCT_NAME\" \n#install_name_tool -change /SVNRepositories/libfreenect/build/lib/libfreenect.0.0.dylib @loader_path/../Frameworks/libfreenect.0.0.1.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.plugin/Contents/MacOS/$PRODUCT_NAME\" \n#install_name_tool -change /usr/local/lib/libusb-1.0.0.dylib @loader_path/../Frameworks/libusb-1.0.0.dylib \"$TARGET_BUILD_DIR/$PRODUCT_NAME.plugin/Contents/Frameworks/libfreenect.0.0.1.dylib\" \n";
+		};
+		233E2C690A83C783005A62DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This shell script simply copies the built plug-in to \"~/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/v002 Open Kinect.plugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/v002 Open Kinect.plugin\" \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				16BA95420A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m in Sources */,
+				1B5584601450CC860012DE4E /* cameras.c in Sources */,
+				1B5584611450CC860012DE4E /* core.c in Sources */,
+				1B5584631450CC860012DE4E /* registration.c in Sources */,
+				1B5584641450CC860012DE4E /* tilt.c in Sources */,
+				1B5584651450CC860012DE4E /* usb_libusb10.c in Sources */,
+				1B5879921550AFF3006A9933 /* v002FBO.m in Sources */,
+				1B5879931550AFF3006A9933 /* v002MasterPluginInterface.m in Sources */,
+				1B5879941550AFF3006A9933 /* v002Shader.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		233E2C660A83C76D005A62DF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* v002 Open Kinect */;
+			targetProxy = 233E2C650A83C76D005A62DF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "v002 Open Kinect_Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "V002_UNIQUE_CLASS_NAME_PREFIX=v002OpenKinect";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Graphics/Quartz Composer Plug-Ins";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = "v002 Open Kinect";
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_AUTO_VECTORIZATION = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_SSE3_EXTENSIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "v002 Open Kinect_Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "V002_UNIQUE_CLASS_NAME_PREFIX=v002OpenKinect";
+				GCC_UNROLL_LOOPS = YES;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Graphics/Quartz Composer Plug-Ins";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				PRODUCT_NAME = "v002 Open Kinect";
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = "";
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = "";
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
+			};
+			name = Release;
+		};
+		233E2D8A0A83C7AC005A62DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build & Install";
+			};
+			name = Debug;
+		};
+		233E2D8B0A83C7AC005A62DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "Build & Install";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "v002 Open Kinect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "v002 Open Kinect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		233E2D890A83C7AC005A62DF /* Build configuration list for PBXAggregateTarget "Build & Copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				233E2D8A0A83C7AC005A62DF /* Debug */,
+				233E2D8B0A83C7AC005A62DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}
