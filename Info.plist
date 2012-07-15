@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>info.v002.${PRODUCT_NAME:identifier}</string>
+	<string>info.v002.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleGetInfoString</key>
-	<string>v002_Open_Kinect version 1.0 Beta 3, Copyright vade.</string>
+	<string>v002_Open_Kinect version 1.0 Beta 4, © 2008-2012 vade &amp; bangnoise</string>
 	<key>CFBundleVersion</key>
 	<string>1.0 Beta 4</string>
 	<key>CFBundleShortVersionString</key>

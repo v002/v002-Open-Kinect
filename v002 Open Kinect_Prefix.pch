@@ -1,6 +1,10 @@
 #define v002_FBO_CLASS_NAME_REPLACE_ME v002OpenKinectFBO
 #define v002_SHADER_CLASS_NAME_REPLACE_ME v002OpenKinectShader
 
+#define kv002DescriptionAddOnText @"\n\rv002 Plugins : http://v002.info\n\nCopyright:\nvade - Anton Marini.\nbangnoise - Tom Butterworth\n\n2008-2012 - Creative Commons Non Commercial Share Alike Attribution 3.0"
+
+#define	kQCPlugIn_Category [NSArray arrayWithObjects:@"v002", nil]
+
 #ifdef __OBJC__
 	#import <Quartz/Quartz.h>
 #endif

@@ -386,6 +386,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "v002 Open Kinect";
 				WRAPPER_EXTENSION = plugin;
 				ZERO_LINK = YES;
@@ -411,6 +412,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "v002 Open Kinect";
 				WRAPPER_EXTENSION = plugin;
 			};
@@ -448,6 +450,7 @@
 		233E2D8A0A83C7AC005A62DF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Debug;
@@ -455,6 +458,7 @@
 		233E2D8B0A83C7AC005A62DF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;

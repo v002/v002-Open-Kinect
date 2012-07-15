@@ -77,7 +77,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 + (NSDictionary*) attributes
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
+	return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
+            [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey,
+            kQCPlugIn_Category, QCPlugInAttributeCategoriesKey, nil];
 }
 
 + (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
@@ -733,7 +735,7 @@ static void depth_cb(freenect_device *dev, freenect_depth_format *d, uint32_t ti
         return;
     }
     
-    NSLog(@"Opened device %u", self.deviceID);    
+    //NSLog(@"Opened device %u", self.deviceID);
     
     freenect_set_led(f_dev, LED_GREEN);
     freenect_set_user(f_dev, self);
