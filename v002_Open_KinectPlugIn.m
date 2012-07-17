@@ -253,12 +253,17 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void) finalize
 {
+    dispatch_suspend(kinectTimer);
+    dispatch_source_cancel(kinectTimer);
+    dispatch_release(kinectTimer);
+    
 	[super finalize];
 }
 
 - (void) dealloc
 {
     dispatch_suspend(kinectTimer);
+    dispatch_source_cancel(kinectTimer);
     dispatch_release(kinectTimer);
     
 	[super dealloc];
@@ -295,6 +300,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void) stopExecution:(id<QCPlugInContext>)context
 {
+    NSLog(@"Stop Excecute");
+
     dispatch_suspend(kinectTimer);
     
     CGLContextObj cgl_ctx = [context CGLContextObj];
@@ -675,7 +682,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 // Call this on our Kinect Queue
 - (void) setupKinect
 {
-    dispatch_async(kinectQueue, ^{
+    // Block on setup and teardown?
+    dispatch_sync(kinectQueue, ^{
         
         // Color RGB Image
         self.rgb = malloc(self.selectedResolutionRGB.width * self.selectedResolutionRGB.height * 3 * sizeof(unsigned char));
@@ -751,7 +759,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 // Call this on our Kinect Queue
 - (void) tearDownKinect
 {
-    dispatch_async(kinectQueue, ^{
+    dispatch_sync(kinectQueue, ^{
 
         self.needNewDepthImage = NO;
         self.needNewRGBImage = NO;
@@ -802,7 +810,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	timeout.tv_sec = 5; // was 60
 	timeout.tv_usec = 0; // was 0
     
-    if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
+    //if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
+    if(freenect_process_events(f_ctx) >= 0)
     {
         freenect_set_tilt_degs(f_dev, self.tilt);
         
