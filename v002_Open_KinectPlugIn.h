@@ -20,6 +20,11 @@
 
 @interface v002_Open_KinectPlugIn : QCPlugIn
 {
+    dispatch_source_t kinectTimer;
+    dispatch_queue_t kinectQueue;
+    
+//    NSThread* kinectThread;
+
     BOOL usingFloatWorkaround;
     
     // this is our luminance 16 texture raw from the kinect
@@ -41,7 +46,6 @@
     
     v002Shader* depthShader;        
     
-    NSThread* kinectThread;
     
     freenect_context *f_ctx;
     freenect_device *f_dev;
@@ -50,9 +54,14 @@
     unsigned char *IR;
     unsigned char *rgb;
     uint16 *depth;
+    
+    // second set of buffers for our textures backing
+    unsigned char *textureIR;
+    unsigned char *textureRGB;
+    uint16 *textureDepth;
+    
 	freenect_registration* registration;
 	
-    
     BOOL needNewRGBImage;
     BOOL needNewDepthImage;
     double tilt;
@@ -96,6 +105,11 @@
 @property (readwrite) unsigned char *IR;
 @property (readwrite) unsigned char *rgb;
 @property (readwrite) uint16 *depth;
+
+@property (readwrite) unsigned char *textureIR;
+@property (readwrite) unsigned char *textureRGB;
+@property (readwrite) uint16 *textureDepth;
+
 @property (readwrite) freenect_registration* registration;
 
 @property (readwrite, assign) double accelX;
@@ -122,7 +136,10 @@
 - (void) setupGL:(CGLContextObj) cgl_ctx;
 - (void) tearDownGL:(CGLContextObj) cgl_ctx;
 
-- (void) backgroundThread;
+- (void) setupKinect;
+- (void) tearDownKinect;
+- (void) periodicKinectProcessEffects;
 - (void) switchToColorMode;
 - (void) switchToIRMode;
+
 @end
