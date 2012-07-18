@@ -1,4 +1,4 @@
-//
+
 //  v002_Open_KinectPlugIn.m
 //  v002 Open Kinect
 //
@@ -20,7 +20,7 @@
 
 #pragma mark - Helpers
 
-dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)
+static dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)
 {
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     if (timer)
@@ -35,32 +35,41 @@ dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispat
 
 static void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp)
 {
-	v002_Open_KinectPlugIn* self = freenect_get_user(dev);
+	v002_Open_KinectPlugIn* pluginInstance = freenect_get_user(dev);
 
-    if(self.useIRImageFormat)
+    if(pluginInstance.kinectInUse)
     {
-        NSSize s = self.selectedResolutionIR;
-        size_t size = s.width * s.height * sizeof(unsigned char);
-        memcpy(self.textureIR, self.IR, size);
+        if(pluginInstance.useIRImageFormat)
+        {
+            NSSize s = pluginInstance.selectedResolutionIR;
+            size_t size = s.width * s.height * sizeof(unsigned char);
+            memcpy(pluginInstance.textureIR, pluginInstance.IR, size);
+        }
+        else
+        {
+            NSSize s = pluginInstance.selectedResolutionRGB;
+            size_t size = s.width * s.height * sizeof(unsigned char) * 3;
+            memcpy(pluginInstance.textureRGB, pluginInstance.rgb, size);
+        }
+        
+        pluginInstance.needNewRGBImage = TRUE;
     }
-    else
-    {
-        NSSize s = self.selectedResolutionRGB;
-        size_t size = s.width * s.height * sizeof(unsigned char) * 3;
-        memcpy(self.textureRGB, self.rgb, size);
-    }
-    self.needNewRGBImage = TRUE;
 }
 
 static void depth_cb(freenect_device *dev, freenect_depth_format *d, uint32_t timestamp)
 {
-    v002_Open_KinectPlugIn* self = freenect_get_user(dev);
-    
-    NSSize s = self.selectedResolutionDepth;
-    size_t size = s.width * s.height * sizeof(uint16);
-    memcpy(self.textureDepth, self.depth, size);
+    v002_Open_KinectPlugIn* pluginInstance = freenect_get_user(dev);
 
-    self.needNewDepthImage = TRUE;
+//    NSLog(@"Depth Callback from plugin %p", pluginInstance);
+
+    if(pluginInstance.kinectInUse)
+    {
+        NSSize s = pluginInstance.selectedResolutionDepth;
+        size_t size = s.width * s.height * sizeof(uint16);
+        memcpy(pluginInstance.textureDepth, pluginInstance.depth, size);
+
+        pluginInstance.needNewDepthImage = TRUE;
+    }
 }
 
 
@@ -79,8 +88,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 @implementation v002_Open_KinectPlugIn
 
-@synthesize depthProvider;
-@synthesize imageProvider;
+@synthesize kinectInUse;
 
 @synthesize useIRImageFormat;
 @synthesize needNewRGBImage;
@@ -223,32 +231,43 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         f_ctx = NULL;
         f_dev = NULL;
         
-        kinectQueue = dispatch_queue_create("info.v002.kinectQueue", DISPATCH_QUEUE_SERIAL);
+        // kinect startup handling
         
-        // Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
-        double timeInterval = 1.0/30.0;
+        if (freenect_init(&f_ctx, NULL) < 0)
+        {
+            NSLog(@"freenect_init() failed %p", self);
+            return nil;
+        }
         
-        // Timer is resumed and stopped in Start/Stop execution
-        kinectTimer = CreateDispatchTimer(timeInterval * NSEC_PER_SEC,  timeInterval * 0.5 * NSEC_PER_SEC,
-                                          kinectQueue,
-                                          ^{
-                                              [self periodicKinectProcessEffects];
-                                          });
+        freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
         
-        dispatch_retain(kinectTimer);
+        int nr_devices = freenect_num_devices(f_ctx);
+        NSLog(@"Number of devices found: %d", nr_devices);
 
-		self.deviceID = 0;
+        self.kinectInUse = NO;
         
-        self.depthProvider = nil;
-        self.imageProvider = nil;
-        
+		self.deviceID = UINT_MAX;
+                
         self.needNewDepthImage = FALSE;
         self.needNewRGBImage = FALSE;
         
+        // For now, we dont actually change this..
         self.resolution = FREENECT_RESOLUTION_MEDIUM;
         self.selectedResolutionIR = NSMakeSize(640, 480);
         self.selectedResolutionRGB = NSMakeSize(640, 480);
         self.selectedResolutionDepth = NSMakeSize(640, 480);
+        
+        // Color RGB Image
+        self.rgb = malloc(self.selectedResolutionRGB.width * self.selectedResolutionRGB.height * 3 * sizeof(unsigned char));
+        self.textureRGB = malloc(self.selectedResolutionRGB.width * self.selectedResolutionRGB.height * 3 * sizeof(unsigned char));
+        
+        //"Color" IR image, 8 bit Intensity
+        self.IR = malloc(self.selectedResolutionIR.width * self.selectedResolutionIR.height * sizeof(unsigned char));
+        self.textureIR = malloc(self.selectedResolutionIR.width * self.selectedResolutionIR.height * sizeof(unsigned char));
+        
+        // depth
+        self.depth = malloc(self.selectedResolutionDepth.width * self.selectedResolutionDepth.height  * sizeof(uint16));
+        self.textureDepth = malloc(self.selectedResolutionDepth.width * self.selectedResolutionDepth.height  * sizeof(uint16));
     }
 	
 	return self;
@@ -256,19 +275,55 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void) finalize
 {
-    dispatch_suspend(kinectTimer);
-    dispatch_source_cancel(kinectTimer);
-    dispatch_release(kinectTimer);
+    if(f_ctx)
+        freenect_shutdown(f_ctx);
     
+    f_ctx = NULL;
+
+    // free local resources
+    free(self.IR);
+    free(self.rgb);
+    free(self.depth);
+    
+    free(self.textureIR);
+    free(self.textureRGB);
+    free(self.textureDepth);
+    
+    self.IR = NULL;
+    self.rgb = NULL;
+    self.depth = NULL;
+    
+    self.textureIR = NULL;
+    self.textureRGB = NULL;
+    self.textureDepth = NULL;
+
 	[super finalize];
 }
 
 - (void) dealloc
 {
-    dispatch_suspend(kinectTimer);
-    dispatch_source_cancel(kinectTimer);
-    dispatch_release(kinectTimer);
+    if(f_ctx)
+        freenect_shutdown(f_ctx);
     
+    f_ctx = NULL;
+    
+    // free local resources
+    free(self.IR);
+    free(self.rgb);
+    free(self.depth);
+    
+    free(self.textureIR);
+    free(self.textureRGB);
+    free(self.textureDepth);
+    
+    self.IR = NULL;
+    self.rgb = NULL;
+    self.depth = NULL;
+    
+    self.textureIR = NULL;
+    self.textureRGB = NULL;
+    self.textureDepth = NULL;
+
 	[super dealloc];
 }
 
@@ -283,13 +338,26 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     CGLContextObj cgl_ctx = [context CGLContextObj];
     
 	NSLog(@"start Excecute");
-	
+
+    kinectQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+    
+    // Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
+    double timeInterval = 1.0/30.0;
+    
+    kinectTimer = CreateDispatchTimer(timeInterval * NSEC_PER_SEC,  timeInterval * 0.5 * NSEC_PER_SEC,
+                                      kinectQueue,
+                                      ^{
+                                          [self periodicKinectProcessEffects];
+                                      });
+        
+    [self setupGL:cgl_ctx];
+    
+    //sync 
     [self setupKinect];
 
-    [self setupGL:cgl_ctx];
-
+    // start our timer
     dispatch_resume(kinectTimer);
-
+    
     return YES;
 }
 
@@ -304,14 +372,21 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 - (void) stopExecution:(id<QCPlugInContext>)context
 {
     NSLog(@"Stop Excecute");
-
-    dispatch_suspend(kinectTimer);
     
     CGLContextObj cgl_ctx = [context CGLContextObj];
     
     [self tearDownGL:cgl_ctx];
+       
+//    dispatch_sync(kinectQueue, ^{
     
+        dispatch_source_cancel(kinectTimer);
+        dispatch_release(kinectTimer);
+//    });    
+    
+    // sync
     [self tearDownKinect];
+    
+    dispatch_release(kinectQueue);
 }
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
@@ -350,22 +425,12 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 //                break;
 //        }
         		
-        CGLContextObj cgl_ctx = [context CGLContextObj];
-
-        dispatch_suspend(kinectTimer);
-        
-        // TODO: WHY THE FUCK AM I DOING THIS?
-        [self tearDownGL:cgl_ctx];
+//        CGLContextObj cgl_ctx = [context CGLContextObj];
         
         [self tearDownKinect];
 
-        [self setupKinect];
-        
-        // TODO: WHY THE FUCK AM I DOING THIS?
-        [self setupGL:cgl_ctx];
-        
-        dispatch_resume(kinectTimer);
-	}
+        [self setupKinect];        
+    }
 	
     if([self didValueForInputKeyChange:@"inputTilt"])
         self.tilt = self.inputTilt;
@@ -381,11 +446,11 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             [self switchToIRMode];
     }
         
-    if( (self.needNewDepthImage || self.needNewRGBImage) && (fbo && rawDepthTexture && rawRGBTexture && rawInfraTexture) )
+    if( self.kinectInUse && (self.needNewDepthImage || self.needNewRGBImage) && (fbo && rawDepthTexture && rawRGBTexture && rawInfraTexture) )
     {
-        self.depthProvider = nil;
-        self.imageProvider = nil;
+        NSLog(@"Output Frame plugin %p", self);
 
+        
         self.needNewDepthImage = FALSE;
         self.needNewRGBImage = FALSE;
 
@@ -579,7 +644,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
                 
         // Image Providers
-        self.depthProvider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatRGBAf
+        id<QCPlugInOutputImageProvider> depthProvider = nil;
+        depthProvider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatRGBAf
                                                                          pixelsWide:self.selectedResolutionDepth.width
                                                                          pixelsHigh:self.selectedResolutionDepth.height
                                                                                name:floatTexture
@@ -589,8 +655,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
                                                                          colorSpace:[context colorSpace]
                                                                    shouldColorMatch:YES];  
         
-        // Width is used as depth, since final rendered images use that as size metric
-        self.imageProvider = [context outputImageProviderFromTextureWithPixelFormat:(usingFloatWorkaround) ? QCPlugInPixelFormatRGBAf : QCPlugInPixelFormatARGB8
+        // Width is used from depth, since final rendered images use that as size metric
+        id<QCPlugInOutputImageProvider> imageProvider = nil;
+        imageProvider = [context outputImageProviderFromTextureWithPixelFormat:(usingFloatWorkaround) ? QCPlugInPixelFormatRGBAf : QCPlugInPixelFormatARGB8
                                                                          pixelsWide:self.selectedResolutionDepth.width
                                                                          pixelsHigh:self.selectedResolutionDepth.height
                                                                                name:rgbaTexture
@@ -603,8 +670,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         glPopClientAttrib();
         glPopAttrib();
         
-        self.outputColorImage = self.imageProvider;
-        self.outputDepthImage = self.depthProvider;
+        self.outputColorImage = imageProvider;
+        self.outputDepthImage = depthProvider;
         
         // Accel info.
         self.outputAccelX = self.accelX;
@@ -615,7 +682,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     return YES;
 }
 
-#pragma mark -
+#pragma mark - OpenGL
 
 - (void) setupGL:(CGLContextObj) cgl_ctx
 {
@@ -688,117 +755,103 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     // Block on setup and teardown?
     dispatch_sync(kinectQueue, ^{
         
-        // Color RGB Image
-        self.rgb = malloc(self.selectedResolutionRGB.width * self.selectedResolutionRGB.height * 3 * sizeof(unsigned char));
-        self.textureRGB = malloc(self.selectedResolutionRGB.width * self.selectedResolutionRGB.height * 3 * sizeof(unsigned char));
-        
-        //"Color" IR image, 8 bit Intensity
-        self.IR = malloc(self.selectedResolutionIR.width * self.selectedResolutionIR.height * sizeof(unsigned char));
-        self.textureIR = malloc(self.selectedResolutionIR.width * self.selectedResolutionIR.height * sizeof(unsigned char));
-        
-        // depth
-        self.depth = malloc(self.selectedResolutionDepth.width * self.selectedResolutionDepth.height  * sizeof(uint16));
-        self.textureDepth = malloc(self.selectedResolutionDepth.width * self.selectedResolutionDepth.height  * sizeof(uint16));
-        
-        // kinect startup handling
-        
-        if (freenect_init(&f_ctx, NULL) < 0)
+        if(self.deviceID < UINT_MAX)
         {
-            NSLog(@"freenect_init() failed");
-            
-            dispatch_suspend(kinectTimer);
-            
-            return;
-        }
-        
-        freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
-        
-        int nr_devices = freenect_num_devices(f_ctx);
-        NSLog(@"Number of devices found: %d", nr_devices);
-        
-        // TODO: test with more than 1 kinect
-        if (freenect_open_device(f_ctx, &f_dev, self.deviceID) < 0)
-        {
-            NSLog(@"Could not open device");
-            
-            dispatch_suspend(kinectTimer);
+            NSLog(@"Begin setupKinect from plugin %p", self);
+                      
+            // TODO: test with more than 1 kinect
+            if (freenect_open_device(f_ctx, &f_dev, self.deviceID) < 0)
+            {
+                NSLog(@"Could not open device %p", self);
+                
+                dispatch_async(kinectQueue, ^{
+                    [self tearDownKinect];
+                });
 
-            return;
-        }
-        
-        //NSLog(@"Opened device %u", self.deviceID);
-        
-        freenect_set_led(f_dev, LED_GREEN);
-        freenect_set_user(f_dev, self);
-        
-        if(self.useIRImageFormat)
-        {
-            freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_IR_8BIT));
-            freenect_set_video_buffer(f_dev, self.IR);
+                return;
+            }
             
-            freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM));
-        }
-        else
-        {
-            freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_RGB));
-            freenect_set_video_buffer(f_dev, self.rgb);
+            //NSLog(@"Opened device %u", self.deviceID);
             
-            if(self.correctColor)
-                freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, /*FREENECT_DEPTH_11BIT*/ FREENECT_DEPTH_REGISTERED));
+            if(freenect_set_led(f_dev, LED_GREEN) < 0)
+                NSLog(@"Could not set LED Green %p", self);
+
+            freenect_set_user(f_dev, self);
+            
+            if(self.useIRImageFormat)
+            {
+                if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_IR_8BIT)) < 0)
+                    NSLog(@"Could not set Video Mode %p", self);
+
+                if(freenect_set_video_buffer(f_dev, self.IR) < 0)
+                    NSLog(@"Could not set Video Buffer %p", self);
+
+                
+                if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
+                    NSLog(@"Could not set Depth Mode Mode %p", self);
+            }
             else
-                freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM));
+            {
+                if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_RGB)) < 0)
+                    NSLog(@"Could not set Video Mode %p", self);
+
+                if(freenect_set_video_buffer(f_dev, self.rgb) < 0)
+                    NSLog(@"Could not set Video Buffer %p", self);
+                
+                if(self.correctColor)
+                {
+                    if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, /*FREENECT_DEPTH_11BIT*/ FREENECT_DEPTH_REGISTERED)) < 0)
+                        NSLog(@"Could not set Depth Mode %p", self);
+                }
+                else
+                    if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
+                        NSLog(@"Could not set Depth Mode %p", self);
+            }
+            
+            freenect_set_video_callback(f_dev, (freenect_video_cb) rgb_cb);
+            
+            if(freenect_set_depth_buffer(f_dev, self.depth) > 0)
+                NSLog(@"Could not set Depth Buffer %p", self);
+
+            freenect_set_depth_callback(f_dev, (freenect_depth_cb) depth_cb);
+            
+            if(freenect_start_video(f_dev))
+                NSLog(@"Could not Start Video %p", self);
+            
+            if(freenect_start_depth(f_dev))
+                NSLog(@"Could not Start Depth %p", self);
+
+            self.kinectInUse = YES;
         }
         
-        freenect_set_video_callback(f_dev, &rgb_cb);
-        
-        freenect_set_depth_buffer(f_dev, self.depth);
-        freenect_set_depth_callback(f_dev, (freenect_depth_cb) &depth_cb);
-        freenect_start_video(f_dev);
-        freenect_start_depth(f_dev);
     });
 }
 
 // Call this on our Kinect Queue
 - (void) tearDownKinect
-{
+{    
+    // ensure teardown is syncronous
     dispatch_sync(kinectQueue, ^{
 
-        self.needNewDepthImage = NO;
-        self.needNewRGBImage = NO;
-        
-        if(f_dev)
-        {        
-            // kinect shutdown handling
-            freenect_update_tilt_state(f_dev);
-            freenect_stop_depth(f_dev);
-            freenect_stop_video(f_dev);
-            freenect_set_led(f_dev, LED_YELLOW);
+        if(self.kinectInUse)
+        {
+            self.kinectInUse = NO;
+            self.needNewDepthImage = NO;
+            self.needNewRGBImage = NO;
             
-            freenect_close_device(f_dev);
+            if(f_dev)
+            {        
+                // kinect shutdown handling
+                freenect_update_tilt_state(f_dev);
+                freenect_stop_depth(f_dev);
+                freenect_stop_video(f_dev);
+                freenect_set_led(f_dev, LED_YELLOW);
+                
+                freenect_close_device(f_dev);
+            }
+            
+            f_dev = NULL;
         }
-        
-        if(f_ctx)
-            freenect_shutdown(f_ctx);
-        
-        f_dev = NULL;
-        f_ctx = NULL;
-        
-        // free local resources
-        free(self.IR);
-        free(self.rgb);
-        free(self.depth);
-
-        free(self.textureIR);
-        free(self.textureRGB);
-        free(self.textureDepth);    
-        
-        self.IR = NULL;
-        self.rgb = NULL;
-        self.depth = NULL;
-        
-        self.textureIR = NULL;
-        self.textureRGB = NULL;
-        self.textureDepth = NULL;
     });
 }
 
@@ -809,28 +862,33 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
     // Move to shorter timeout?
     struct timeval timeout;
-	timeout.tv_sec = 5; // was 60
+	timeout.tv_sec = 10; // was 60
 	timeout.tv_usec = 0; // was 0
     
-    //if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
-    if(freenect_process_events(f_ctx) >= 0)
+    if(f_dev && f_ctx && self.kinectInUse)
     {
-        freenect_set_tilt_degs(f_dev, self.tilt);
-        
-        double x,y,z;
-        
-        freenect_update_tilt_state(f_dev);
-        freenect_raw_tilt_state* state = freenect_get_tilt_state(f_dev);
-        freenect_get_mks_accel(state, &x, &y, &z);
-        
-        self.accelX = x;
-        self.accelY = y;
-        self.accelZ = z;
+        //if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
+        if(freenect_process_events(f_ctx) >= 0)
+        {
+            freenect_set_tilt_degs(f_dev, self.tilt);
+            
+            double x,y,z;
+            
+            freenect_update_tilt_state(f_dev);
+            freenect_raw_tilt_state* state = freenect_get_tilt_state(f_dev);
+            freenect_get_mks_accel(state, &x, &y, &z);
+            
+            self.accelX = x;
+            self.accelY = y;
+            self.accelZ = z;
+        }
     }
 }
 
 - (void) switchToColorMode
 {
+    dispatch_suspend(kinectTimer);
+
     dispatch_async(kinectQueue, ^{
         
         if(f_dev != NULL)
@@ -850,11 +908,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             freenect_set_depth_callback(f_dev, (freenect_depth_cb) &depth_cb);
             freenect_start_depth(f_dev);
         }
+
+        dispatch_resume(kinectTimer);
+
     });
 }
 
 - (void) switchToIRMode
 {
+    dispatch_suspend(kinectTimer);
+    
     dispatch_async(kinectQueue, ^{
         
         if(f_dev != NULL)
@@ -871,6 +934,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             freenect_set_depth_callback(f_dev, (freenect_depth_cb) &depth_cb);
             freenect_start_depth(f_dev);
         }
+        
+        dispatch_resume(kinectTimer);
     });
 }
 

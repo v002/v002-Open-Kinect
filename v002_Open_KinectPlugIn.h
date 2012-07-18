@@ -23,6 +23,7 @@
     dispatch_source_t kinectTimer;
     dispatch_queue_t kinectQueue;
     
+    BOOL kinectInUse;
 //    NSThread* kinectThread;
 
     BOOL usingFloatWorkaround;
@@ -79,16 +80,9 @@
     NSSize selectedResolutionRGB;
     NSSize selectedResolutionIR;
     NSSize selectedResolutionDepth;
-
-    // cache our image providers
-    id<QCPlugInOutputImageProvider> depthProvider;
-    id<QCPlugInOutputImageProvider> imageProvider;
-    
-    pthread_mutex_t rlock;
 }
 
-@property (readwrite, assign) id<QCPlugInOutputImageProvider> depthProvider;
-@property (readwrite, assign) id<QCPlugInOutputImageProvider> imageProvider;
+@property (readwrite, assign) BOOL kinectInUse;
 
 @property (readwrite, assign) BOOL correctColor;
 @property (readwrite, assign) BOOL useIRImageFormat;
