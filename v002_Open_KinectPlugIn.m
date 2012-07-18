@@ -40,7 +40,7 @@ static void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp)
     if(self.useIRImageFormat)
     {
         NSSize s = self.selectedResolutionIR;
-        size_t size = s.width * s.height * sizeof(unsigned char) * 3;
+        size_t size = s.width * s.height * sizeof(unsigned char);
         memcpy(self.textureIR, self.IR, size);
     }
     else
@@ -220,6 +220,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 {
 	if(self = [super init])
     {
+        f_ctx = NULL;
+        f_dev = NULL;
+        
         kinectQueue = dispatch_queue_create("info.v002.kinectQueue", DISPATCH_QUEUE_SERIAL);
         
         // Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
@@ -710,15 +713,14 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
         
-        //	int nr_devices = freenect_num_devices(f_ctx);
-        //	NSLog(@"Number of devices found: %d", nr_devices);
+        int nr_devices = freenect_num_devices(f_ctx);
+        NSLog(@"Number of devices found: %d", nr_devices);
         
         // TODO: test with more than 1 kinect
-        // self.inputDeviceNumber
         if (freenect_open_device(f_ctx, &f_dev, self.deviceID) < 0)
         {
             NSLog(@"Could not open device");
-
+            
             dispatch_suspend(kinectTimer);
 
             return;
