@@ -136,15 +136,10 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 + (NSDictionary*) attributes
 {
-    if(gestaltSystemVersionMinor < 7)
-    {
-        return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
-                [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey, nil];
-    }
-    else
-        return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
-                [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey,
-                kQCPlugIn_Category, QCPlugInAttributeCategoriesKey, nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
+            [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey,
+            kQCPlugIn_Category, @"categories", nil]; // Horrible work around
+
 }
 
 + (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
