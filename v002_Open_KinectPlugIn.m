@@ -16,7 +16,7 @@
 #import "libfreenect.h"
 
 #define	kQCPlugIn_Name				@"v002 Open Kinect"
-#define	kQCPlugIn_Description		@"Open Kinect (libfreenect) based Kinect interface. Control the tilt, and get floating point depth information, color, infra red, accelerometer from a connected Kinect"
+#define	kQCPlugIn_Description		@"Open Kinect (libfreenect) based Microsoft Kinect interface. Supports multiple Kinects. Control the tilt, and get floating point depth information, color, infra red images, perform depth unprojection and color rectification, as well as get accelerometer data from one or more connected Kinects"
 
 // Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
 #define kv002OpenKinectTimeInterval 1.0/( 30.0 * 2.2)
@@ -136,9 +136,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 + (NSDictionary*) attributes
 {
-	return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
-            [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey,
-            kQCPlugIn_Category, QCPlugInAttributeCategoriesKey, nil];
+    if(gestaltSystemVersionMinor < 7)
+    {
+        return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
+                [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey, nil];
+    }
+    else
+        return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey,
+                [kQCPlugIn_Description stringByAppendingString:kv002DescriptionAddOnText], QCPlugInAttributeDescriptionKey,
+                kQCPlugIn_Category, QCPlugInAttributeCategoriesKey, nil];
 }
 
 + (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
@@ -155,7 +161,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 //				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeDefaultValueKey,
 //				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 //				[NSNumber numberWithUnsignedInteger:2], QCPortAttributeMaximumValueKey, nil]; 
-//
     
     if([key isEqualToString:@"inputColorFormat"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Image Format", QCPortAttributeNameKey, 
@@ -170,7 +175,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey, nil]; 
-    
     
     if([key isEqualToString:@"inputTilt"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Tilt Angle", QCPortAttributeNameKey, 
@@ -234,16 +238,13 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         f_ctx = NULL;
         f_dev = NULL;
         
-        // kinect startup handling
-        
+        // kinect startup handling        
         if (freenect_init(&f_ctx, usb_ctx) < 0)
         {
             NSLog(@"freenect_init() failed %p", self);
             return nil;
         }
         
-        // FREENECT_LOG_DEBUG
-        // FREENECT_LOG_ERROR
         freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
         
         freenect_select_subdevices(f_ctx, (freenect_device_flags)(FREENECT_DEVICE_MOTOR | FREENECT_DEVICE_CAMERA));
@@ -376,13 +377,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     
     [self tearDownGL:cgl_ctx];
        
-//    dispatch_sync(kinectQueue, ^{
+    dispatch_source_cancel(kinectTimer);
+    dispatch_release(kinectTimer);
     
-        dispatch_source_cancel(kinectTimer);
-        dispatch_release(kinectTimer);
-//    });    
-    
-    // sync
     [self syncTearDownKinect];
     
     dispatch_release(kinectQueue);
