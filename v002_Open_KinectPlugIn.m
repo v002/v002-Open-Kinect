@@ -148,7 +148,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
                 nil];
-//
+//    Resolution not quite working yet.
 //    if([key isEqualToString:@"inputResolution"])
 //		return [NSDictionary dictionaryWithObjectsAndKeys:@"Resolution", QCPortAttributeNameKey, 
 //                [NSArray arrayWithObjects:@"Low (320 x 240)", @"Medium (640 x 480)", @"High (1280 x 1024)", nil], QCPortAttributeMenuItemsKey,
@@ -184,7 +184,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     if([key isEqualToString:@"inputCorrectColor"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Color Rectification", QCPortAttributeNameKey, nil];
 
-    
     if([key isEqualToString:@"outputColorImage"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
 
@@ -243,9 +242,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             return nil;
         }
         
-        freenect_set_log_level(f_ctx, FREENECT_LOG_DEBUG);
         // FREENECT_LOG_DEBUG
         // FREENECT_LOG_ERROR
+        freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
         
         freenect_select_subdevices(f_ctx, (freenect_device_flags)(FREENECT_DEVICE_MOTOR | FREENECT_DEVICE_CAMERA));
         
@@ -391,8 +390,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
 {    
-	
-	if([self didValueForInputKeyChange:@"inputDeviceID"] /*|| [self didValueForInputKeyChange:@"inputResolution"]*/ )
+    if([self didValueForInputKeyChange:@"inputDeviceID"] /*|| [self didValueForInputKeyChange:@"inputResolution"]*/ )
 	{
 		self.deviceID = self.inputDeviceID;
   
@@ -577,9 +575,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         glPushMatrix();
         glLoadIdentity();
         
-        //glClearColor(0.0, 0.0, 0.0, 0.0);    
+//        glClearColor(0.0, 0.0, 0.0, 0.0);
 //        glClear(GL_COLOR_BUFFER_BIT);
-//        
+        
         glDisable(GL_BLEND);
 		
 		glColor4f(1.0, 1.0, 1.0, 1.0);
@@ -772,75 +770,71 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 // Call this on our Kinect Queue
 - (void) setupKinect
 {        
-        if(self.deviceID < UINT_MAX)
+    if(self.deviceID < UINT_MAX)
+    {
+        NSLog(@"Begin setupKinect from plugin %p", self);
+                  
+        int device = self.deviceID;
+        if (freenect_open_device(f_ctx, &f_dev, device) < 0)
         {
-            NSLog(@"Begin setupKinect from plugin %p", self);
-                      
-            // TODO: test with more than 1 kinect
+            NSLog(@"Could not open device %p", self);
 
-            int device = self.deviceID;
-            if (freenect_open_device(f_ctx, &f_dev, device) < 0)
-            {
-                NSLog(@"Could not open device %p", self);
+            [self aSyncTearDownKinect];
 
-                [self aSyncTearDownKinect];
+            return;
+        }
+        NSLog(@"Opened device %i On %p", device, self);
+        
+        if(freenect_set_led(f_dev, LED_GREEN) < 0)
+            NSLog(@"Could not set LED Green %p", self);
 
-                return;
-            }
-            NSLog(@"Opened device %i On %p", device, self);
+        freenect_set_user(f_dev, self);
+        
+        if(self.useIRImageFormat)
+        {
+            if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_IR_8BIT)) < 0)
+                NSLog(@"Could not set Video Mode %p", self);
+
+            if(freenect_set_video_buffer(f_dev, self.IR) < 0)
+                NSLog(@"Could not set Video Buffer %p", self);
             
-            if(freenect_set_led(f_dev, LED_GREEN) < 0)
-                NSLog(@"Could not set LED Green %p", self);
+            if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
+                NSLog(@"Could not set Depth Mode Mode %p", self);
+        }
+        else
+        {
+            if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_RGB)) < 0)
+                NSLog(@"Could not set Video Mode %p", self);
 
-            freenect_set_user(f_dev, self);
+            if(freenect_set_video_buffer(f_dev, self.rgb) < 0)
+                NSLog(@"Could not set Video Buffer %p", self);
             
-            if(self.useIRImageFormat)
+            if(self.correctColor)
             {
-                if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_IR_8BIT)) < 0)
-                    NSLog(@"Could not set Video Mode %p", self);
-
-                if(freenect_set_video_buffer(f_dev, self.IR) < 0)
-                    NSLog(@"Could not set Video Buffer %p", self);
-
-                
-                if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
-                    NSLog(@"Could not set Depth Mode Mode %p", self);
+                if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, /*FREENECT_DEPTH_11BIT*/ FREENECT_DEPTH_REGISTERED)) < 0)
+                    NSLog(@"Could not set Depth Mode %p", self);
             }
             else
-            {
-                if(freenect_set_video_mode(f_dev, freenect_find_video_mode(self.resolution, FREENECT_VIDEO_RGB)) < 0)
-                    NSLog(@"Could not set Video Mode %p", self);
-
-                if(freenect_set_video_buffer(f_dev, self.rgb) < 0)
-                    NSLog(@"Could not set Video Buffer %p", self);
-                
-                if(self.correctColor)
-                {
-                    if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, /*FREENECT_DEPTH_11BIT*/ FREENECT_DEPTH_REGISTERED)) < 0)
-                        NSLog(@"Could not set Depth Mode %p", self);
-                }
-                else
-                    if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
-                        NSLog(@"Could not set Depth Mode %p", self);
-            }
-            
-            freenect_set_video_callback(f_dev, (freenect_video_cb) rgb_cb);
-            
-            if(freenect_set_depth_buffer(f_dev, self.depth) > 0)
-                NSLog(@"Could not set Depth Buffer %p", self);
-
-            freenect_set_depth_callback(f_dev, (freenect_depth_cb) depth_cb);
-            
-            if(freenect_start_video(f_dev))
-                NSLog(@"Could not Start Video %p", self);
-            
-            if(freenect_start_depth(f_dev))
-                NSLog(@"Could not Start Depth %p", self);
-
-            self.kinectInUse = YES;
+                if(freenect_set_depth_mode(f_dev, freenect_find_depth_mode(self.resolution, FREENECT_DEPTH_MM)) < 0)
+                    NSLog(@"Could not set Depth Mode %p", self);
         }
-}
+        
+        freenect_set_video_callback(f_dev, (freenect_video_cb) rgb_cb);
+        
+        if(freenect_set_depth_buffer(f_dev, self.depth) > 0)
+            NSLog(@"Could not set Depth Buffer %p", self);
 
+        freenect_set_depth_callback(f_dev, (freenect_depth_cb) depth_cb);
+        
+        if(freenect_start_video(f_dev))
+            NSLog(@"Could not Start Video %p", self);
+        
+        if(freenect_start_depth(f_dev))
+            NSLog(@"Could not Start Depth %p", self);
+
+        self.kinectInUse = YES;
+    }
+}
 
 - (void) syncTearDownKinect
 {
@@ -857,7 +851,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         [self tearDownKinect];
     });
 }
-
 
 // Call this on our Kinect Queue
 - (void) tearDownKinect
@@ -913,6 +906,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 - (void) setTiltDegs
 {
     dispatch_async(kinectQueue, ^{
+        if(f_dev != NULL)
         freenect_set_tilt_degs(f_dev, self.tilt);
     });
 }
@@ -942,7 +936,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         }
 
         dispatch_resume(kinectTimer);
-
     });
 }
 
