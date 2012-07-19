@@ -18,6 +18,10 @@
 #define	kQCPlugIn_Name				@"v002 Open Kinect"
 #define	kQCPlugIn_Description		@"Open Kinect (libfreenect) based Kinect interface. Control the tilt, and get floating point depth information, color, infra red, accelerometer from a connected Kinect"
 
+// Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
+#define kv002OpenKinectTimeInterval 1.0/( 30.0 * 2.2)
+
+
 #pragma mark - Helpers
 
 static dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway, dispatch_queue_t queue, dispatch_block_t block)
@@ -36,7 +40,7 @@ static dispatch_source_t CreateDispatchTimer(uint64_t interval, uint64_t leeway,
 static void rgb_cb(freenect_device *dev, void *rgb, uint32_t timestamp)
 {
 	v002_Open_KinectPlugIn* pluginInstance = freenect_get_user(dev);
-
+    
     if(pluginInstance.kinectInUse)
     {
         if(pluginInstance.useIRImageFormat)
@@ -60,7 +64,7 @@ static void depth_cb(freenect_device *dev, freenect_depth_format *d, uint32_t ti
 {
     v002_Open_KinectPlugIn* pluginInstance = freenect_get_user(dev);
 
-//    NSLog(@"Depth Callback from plugin %p", pluginInstance);
+    //NSLog(@"Depth Callback from plugin %p", pluginInstance);
 
     if(pluginInstance.kinectInUse)
     {
@@ -233,13 +237,17 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         // kinect startup handling
         
-        if (freenect_init(&f_ctx, NULL) < 0)
+        if (freenect_init(&f_ctx, usb_ctx) < 0)
         {
             NSLog(@"freenect_init() failed %p", self);
             return nil;
         }
         
-        freenect_set_log_level(f_ctx, FREENECT_LOG_ERROR);
+        freenect_set_log_level(f_ctx, FREENECT_LOG_DEBUG);
+        // FREENECT_LOG_DEBUG
+        // FREENECT_LOG_ERROR
+        
+        freenect_select_subdevices(f_ctx, (freenect_device_flags)(FREENECT_DEVICE_MOTOR | FREENECT_DEVICE_CAMERA));
         
         int nr_devices = freenect_num_devices(f_ctx);
         NSLog(@"Number of devices found: %d", nr_devices);
@@ -334,28 +342,20 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 @implementation v002_Open_KinectPlugIn (Execution)
 
 - (BOOL) startExecution:(id<QCPlugInContext>)context
-{	    
-    CGLContextObj cgl_ctx = [context CGLContextObj];
-    
+{
 	NSLog(@"start Excecute");
 
-    kinectQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
-    
-    // Timing - Kinect polls at 1/30th second. Multiply by nyquist so we dont miss anything
-    double timeInterval = 1.0/30.0;
-    
-    kinectTimer = CreateDispatchTimer(timeInterval * NSEC_PER_SEC,  timeInterval * 0.5 * NSEC_PER_SEC,
+    CGLContextObj cgl_ctx = [context CGLContextObj];
+
+    [self setupGL:cgl_ctx];
+
+    kinectQueue = dispatch_queue_create("info.v002.v002OpenKinect", DISPATCH_QUEUE_SERIAL);
+        
+    kinectTimer = CreateDispatchTimer(kv002OpenKinectTimeInterval * NSEC_PER_SEC,  kv002OpenKinectTimeInterval * 0.5 * NSEC_PER_SEC,
                                       kinectQueue,
                                       ^{
                                           [self periodicKinectProcessEffects];
                                       });
-        
-    [self setupGL:cgl_ctx];
-    
-    //sync 
-    [self setupKinect];
-
-    // start our timer
     dispatch_resume(kinectTimer);
     
     return YES;
@@ -384,7 +384,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 //    });    
     
     // sync
-    [self tearDownKinect];
+    [self syncTearDownKinect];
     
     dispatch_release(kinectQueue);
 }
@@ -427,13 +427,20 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         		
 //        CGLContextObj cgl_ctx = [context CGLContextObj];
         
-        [self tearDownKinect];
+        dispatch_suspend(kinectTimer);
 
-        [self setupKinect];        
+        [self aSyncTearDownKinect];
+
+        [self aSyncSetupKinect];
+        
+        dispatch_resume(kinectTimer);
     }
 	
     if([self didValueForInputKeyChange:@"inputTilt"])
+    {
         self.tilt = self.inputTilt;
+        [self setTiltDegs];
+    }
     
     if([self didValueForInputKeyChange:@"inputColorFormat"] || [self didValueForInputKeyChange:@"inputCorrectColor"])
     {
@@ -447,10 +454,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     }
         
     if( self.kinectInUse && (self.needNewDepthImage || self.needNewRGBImage) && (fbo && rawDepthTexture && rawRGBTexture && rawInfraTexture) )
-    {
-        NSLog(@"Output Frame plugin %p", self);
-
-        
+    {        
         self.needNewDepthImage = FALSE;
         self.needNewRGBImage = FALSE;
 
@@ -749,29 +753,41 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 #pragma mark - Kinect Queue Methods
 
-// Call this on our Kinect Queue
-- (void) setupKinect
+- (void) syncSetupKinect
 {
     // Block on setup and teardown?
     dispatch_sync(kinectQueue, ^{
-        
+        [self setupKinect];
+    });
+}
+
+- (void) aSyncSetupKinect
+{
+    // Block on setup and teardown?
+    dispatch_async(kinectQueue, ^{
+        [self setupKinect];
+    });
+}
+
+// Call this on our Kinect Queue
+- (void) setupKinect
+{        
         if(self.deviceID < UINT_MAX)
         {
             NSLog(@"Begin setupKinect from plugin %p", self);
                       
             // TODO: test with more than 1 kinect
-            if (freenect_open_device(f_ctx, &f_dev, self.deviceID) < 0)
+
+            int device = self.deviceID;
+            if (freenect_open_device(f_ctx, &f_dev, device) < 0)
             {
                 NSLog(@"Could not open device %p", self);
-                
-                dispatch_async(kinectQueue, ^{
-                    [self tearDownKinect];
-                });
+
+                [self aSyncTearDownKinect];
 
                 return;
             }
-            
-            //NSLog(@"Opened device %u", self.deviceID);
+            NSLog(@"Opened device %i On %p", device, self);
             
             if(freenect_set_led(f_dev, LED_GREEN) < 0)
                 NSLog(@"Could not set LED Green %p", self);
@@ -823,43 +839,54 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
             self.kinectInUse = YES;
         }
-        
+}
+
+
+- (void) syncTearDownKinect
+{
+    dispatch_sync(kinectQueue, ^{
+
+        [self tearDownKinect];
     });
 }
+
+- (void) aSyncTearDownKinect
+{
+    dispatch_async(kinectQueue, ^{
+        
+        [self tearDownKinect];
+    });
+}
+
 
 // Call this on our Kinect Queue
 - (void) tearDownKinect
 {    
     // ensure teardown is syncronous
-    dispatch_sync(kinectQueue, ^{
-
-        if(self.kinectInUse)
-        {
-            self.kinectInUse = NO;
-            self.needNewDepthImage = NO;
-            self.needNewRGBImage = NO;
+    if(self.kinectInUse)
+    {
+        self.kinectInUse = NO;
+        self.needNewDepthImage = NO;
+        self.needNewRGBImage = NO;
+        
+        if(f_dev)
+        {        
+            // kinect shutdown handling
+            freenect_update_tilt_state(f_dev);
+            freenect_stop_depth(f_dev);
+            freenect_stop_video(f_dev);
+            freenect_set_led(f_dev, LED_YELLOW);
             
-            if(f_dev)
-            {        
-                // kinect shutdown handling
-                freenect_update_tilt_state(f_dev);
-                freenect_stop_depth(f_dev);
-                freenect_stop_video(f_dev);
-                freenect_set_led(f_dev, LED_YELLOW);
-                
-                freenect_close_device(f_dev);
-            }
-            
-            f_dev = NULL;
+            freenect_close_device(f_dev);
         }
-    });
+        
+        f_dev = NULL;
+    }
 }
 
 // This is the background thread where we handle our freekinect callbacks.
 - (void) periodicKinectProcessEffects
 {
-    //if(freenect_process_events(f_ctx) >= 0)
-
     // Move to shorter timeout?
     struct timeval timeout;
 	timeout.tv_sec = 10; // was 60
@@ -870,8 +897,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         //if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
         if(freenect_process_events(f_ctx) >= 0)
         {
-            freenect_set_tilt_degs(f_dev, self.tilt);
-            
             double x,y,z;
             
             freenect_update_tilt_state(f_dev);
@@ -883,6 +908,13 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             self.accelZ = z;
         }
     }
+}
+
+- (void) setTiltDegs
+{
+    dispatch_async(kinectQueue, ^{
+        freenect_set_tilt_degs(f_dev, self.tilt);
+    });
 }
 
 - (void) switchToColorMode

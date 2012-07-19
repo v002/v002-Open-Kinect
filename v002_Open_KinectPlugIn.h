@@ -47,7 +47,7 @@
     
     v002Shader* depthShader;        
     
-    
+    freenect_usb_context* usb_ctx;
     freenect_context *f_ctx;
     freenect_device *f_dev;
 		
@@ -131,7 +131,11 @@
 - (void) tearDownGL:(CGLContextObj) cgl_ctx;
 
 - (void) setupKinect;
+
 - (void) tearDownKinect;
+- (void) syncTearDownKinect;
+- (void) aSyncTearDownKinect;
+
 - (void) periodicKinectProcessEffects;
 - (void) switchToColorMode;
 - (void) switchToIRMode;

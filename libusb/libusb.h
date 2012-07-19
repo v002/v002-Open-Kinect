@@ -1008,7 +1008,7 @@ static inline void libusb_fill_control_transfer(
 	transfer->timeout = timeout;
 	transfer->buffer = buffer;
 	if (setup)
-		transfer->length = (int) LIBUSB_CONTROL_SETUP_SIZE
+		transfer->length = LIBUSB_CONTROL_SETUP_SIZE
 			+ libusb_le16_to_cpu(setup->wLength);
 	transfer->user_data = user_data;
 	transfer->callback = callback;
