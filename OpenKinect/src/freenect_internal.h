@@ -132,6 +132,13 @@ static inline int32_t fn_le32s(int32_t s)
 #define PID_NUI_AUDIO 0x02ad
 #define PID_NUI_CAMERA 0x02ae
 #define PID_NUI_MOTOR 0x02b0
+#define PID_K4W_CAMERA 0x02bf
+#define PID_K4W_AUDIO 0x02be
+
+typedef enum {
+	HWREV_XBOX360_0 = 0,
+	HWREV_K4W_0 = 1,
+} hardware_revision;
 
 typedef struct {
 	int running;
@@ -202,6 +209,8 @@ struct _freenect_device {
 	freenect_context *parent;
 	freenect_device *next;
 	void *user_data;
+
+	hardware_revision hwrev;
 
 	// Cameras
 	fnusb_dev usb_cam;

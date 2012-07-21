@@ -40,8 +40,6 @@
 
 FREENECTAPI int freenect_init(freenect_context **ctx, freenect_usb_context *usb_ctx)
 {
-	int res;
-
 	*ctx = (freenect_context*)malloc(sizeof(freenect_context));
 	if (!ctx)
 		return -1;
@@ -54,12 +52,7 @@ FREENECTAPI int freenect_init(freenect_context **ctx, freenect_usb_context *usb_
 			| FREENECT_DEVICE_AUDIO
 #endif
 			);
-	res = fnusb_init(&(*ctx)->usb, usb_ctx);
-	if (res < 0) {
-		free(*ctx);
-		*ctx = NULL;
-	}
-	return res;
+	return fnusb_init(&(*ctx)->usb, usb_ctx);
 }
 
 FREENECTAPI int freenect_shutdown(freenect_context *ctx)

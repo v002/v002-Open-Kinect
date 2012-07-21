@@ -127,6 +127,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 @dynamic inputCorrectDepth;
 @dynamic inputCorrectColor;
 //@dynamic inputResolution;
+@dynamic inputDepthSmoothing;
+@dynamic inputNearMode;
 
 @dynamic outputColorImage;
 @dynamic outputDepthImage;
@@ -183,6 +185,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     if([key isEqualToString:@"inputCorrectColor"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Color Rectification", QCPortAttributeNameKey, nil];
 
+    if([key isEqualToString:@"inputDepthSmoothing"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Depth Smoothing", QCPortAttributeNameKey, nil];
+
+    if([key isEqualToString:@"inputNearMode"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Near Mode", QCPortAttributeNameKey, nil];
+
+    if([key isEqualToString:@"inputCorrectColor"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Color Rectification", QCPortAttributeNameKey, nil];
+
     if([key isEqualToString:@"outputColorImage"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
 
@@ -209,6 +220,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             @"inputTilt",
             @"inputCorrectDepth",
             @"inputCorrectColor",
+            @"inputDepthSmoothing",
+            @"inputNearMode",
             @"outputColorImage",
             @"outputDepthImage",
             @"outputAccelX",
@@ -430,6 +443,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     {
         self.tilt = self.inputTilt;
         [self setTiltDegs];
+    }
+    
+    if([self didValueForInputKeyChange:@"inputDepthSmoothing"])
+    {
+        [self setDepthSmoothing:self.inputDepthSmoothing];
+    }
+
+    if([self didValueForInputKeyChange:@"inputNearMode"])
+    {
+        [self setNearMode:self.inputNearMode];
     }
     
     if([self didValueForInputKeyChange:@"inputColorFormat"] || [self didValueForInputKeyChange:@"inputCorrectColor"])
@@ -900,6 +923,37 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     dispatch_async(kinectQueue, ^{
         if(f_dev != NULL)
         freenect_set_tilt_degs(f_dev, self.tilt);
+    });
+}
+
+- (void) setNearMode:(BOOL)near
+{
+    dispatch_async(kinectQueue, ^{
+        if(f_dev != NULL)
+        {
+            freenect_stop_depth(f_dev);
+            
+            if(near)
+                freenect_set_range_mode(f_dev, FREENECT_RANGE_NEAR_MODE);
+            else
+                freenect_set_range_mode(f_dev, FREENECT_RANGE_DEFAULT);
+
+            freenect_start_depth(f_dev);
+        }
+    });
+
+}
+
+- (void) setDepthSmoothing:(BOOL)smooth
+{
+    dispatch_async(kinectQueue, ^{
+        if(f_dev != NULL)
+        {
+            if(smooth)
+                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_HOLE_FILLING_DEPTH_SMOOTHING_ENABLED);
+            else
+                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_DISABLED);
+        }
     });
 }
 
