@@ -930,18 +930,13 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 {
     dispatch_async(kinectQueue, ^{
         if(f_dev != NULL)
-        {
-            freenect_stop_depth(f_dev);
-            
+        {            
             if(near)
                 freenect_set_range_mode(f_dev, FREENECT_RANGE_NEAR_MODE);
             else
                 freenect_set_range_mode(f_dev, FREENECT_RANGE_DEFAULT);
-
-            freenect_start_depth(f_dev);
         }
     });
-
 }
 
 - (void) setDepthSmoothing:(BOOL)smooth
