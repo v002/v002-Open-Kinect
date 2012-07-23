@@ -48,7 +48,7 @@ FN_INTERNAL int fnusb_num_devices(fnusb_ctx *ctx)
 		int r = libusb_get_device_descriptor (devs[i], &desc);
 		if (r < 0)
 			continue;
-		if (desc.idVendor == VID_MICROSOFT && (desc.idProduct == PID_NUI_CAMERA || desc.idProduct == PID_K4W_CAMERA))
+		if (desc.idVendor == VID_MICROSOFT && desc.idProduct == PID_NUI_CAMERA)
 			nr++;
 	}
 	libusb_free_device_list (devs, 1);
@@ -77,7 +77,7 @@ FN_INTERNAL int fnusb_list_device_attributes(fnusb_ctx *ctx, struct freenect_dev
 		int r = libusb_get_device_descriptor (devs[i], &desc);
 		if (r < 0)
 			continue;
-		if (desc.idVendor == VID_MICROSOFT && (desc.idProduct == PID_NUI_CAMERA || desc.idProduct == PID_K4W_CAMERA)) {
+		if (desc.idVendor == VID_MICROSOFT && desc.idProduct == PID_NUI_CAMERA) {
 			// Verify that a serial number exists to query.  If not, don't touch the device.
 			if (desc.iSerialNumber == 0) {
 				continue;
@@ -121,7 +121,6 @@ FN_INTERNAL int fnusb_init(fnusb_ctx *ctx, freenect_usb_context *usb_ctx)
 	int res;
 	if (!usb_ctx) {
 		res = libusb_init(&ctx->ctx);
-		//libusb_set_debug(ctx->ctx, 3);
 		if (res >= 0) {
 			ctx->should_free_ctx = 1;
 			return 0;
@@ -192,7 +191,7 @@ FN_INTERNAL int fnusb_open_subdevices(freenect_device *dev, int index)
 			continue;
 
 		// Search for the camera
-		if ((ctx->enabled_subdevices & FREENECT_DEVICE_CAMERA) && !dev->usb_cam.dev && (desc.idProduct == PID_NUI_CAMERA || desc.idProduct == PID_K4W_CAMERA)) {
+		if ((ctx->enabled_subdevices & FREENECT_DEVICE_CAMERA) && !dev->usb_cam.dev && desc.idProduct == PID_NUI_CAMERA) {
 			// If the index given by the user matches our camera index
 			if (nr_cam == index) {
 				res = libusb_open (devs[i], &dev->usb_cam.dev);
@@ -221,30 +220,13 @@ FN_INTERNAL int fnusb_open_subdevices(freenect_device *dev, int index)
 					dev->usb_cam.dev = NULL;
 					break;
 				}
-				if (desc.idProduct == PID_NUI_CAMERA) {
-					dev->hwrev = HWREV_XBOX360_0;
-					FN_SPEW("Opened Kinect for Xbox360 camera\n");
-				} else if (desc.idProduct == PID_K4W_CAMERA) {
-					dev->hwrev = HWREV_K4W_0;
-					FN_SPEW("Opened Kinect for Windows camera\n");
-					// Set alternate interface setting 1 to enable the two isochronous endpoints
-					res = libusb_set_interface_alt_setting(dev->usb_cam.dev, 0, 1);
-					if (res != 0) {
-						FN_ERROR("Failed to set alternate interface #1 for K4W: %d\n", res);
-						libusb_close(dev->usb_cam.dev);
-						dev->usb_cam.dev = NULL;
-						break;
-					}
-				} else {
-					FN_ERROR("Unknown hardware revision - fix fnusb_open_subdevices()\n");
-				}
 			} else {
 				nr_cam++;
 			}
 		}
 
 		// Search for the motor
-		if ((ctx->enabled_subdevices & FREENECT_DEVICE_MOTOR) && !dev->usb_motor.dev && (desc.idProduct == PID_NUI_MOTOR)) {
+		if ((ctx->enabled_subdevices & FREENECT_DEVICE_MOTOR) && !dev->usb_motor.dev && desc.idProduct == PID_NUI_MOTOR) {
 			// If the index given by the user matches our camera index
 			if (nr_mot == index) {
 				res = libusb_open (devs[i], &dev->usb_motor.dev);
@@ -268,7 +250,7 @@ FN_INTERNAL int fnusb_open_subdevices(freenect_device *dev, int index)
 #ifdef BUILD_AUDIO
 		// TODO: check that the firmware has already been loaded; if not, upload firmware.
 		// Search for the audio
-		if ((ctx->enabled_subdevices & FREENECT_DEVICE_AUDIO) && !dev->usb_audio.dev && (desc.idProduct == PID_NUI_AUDIO || desc.idProduct == PID_K4W_AUDIO)) {
+		if ((ctx->enabled_subdevices & FREENECT_DEVICE_AUDIO) && !dev->usb_audio.dev && desc.idProduct == PID_NUI_AUDIO) {
 			// If the index given by the user matches our audio index
 			if (nr_audio == index) {
 				res = libusb_open (devs[i], &dev->usb_audio.dev);
@@ -324,7 +306,7 @@ FN_INTERNAL int fnusb_open_subdevices(freenect_device *dev, int index)
 							if (r < 0)
 								continue;
 							// If this dev is a Kinect audio device, open device, read serial, and compare.
-							if (new_dev_desc.idVendor == VID_MICROSOFT && (new_dev_desc.idProduct == PID_NUI_AUDIO || new_dev_desc.idProduct == PID_K4W_AUDIO)) {
+							if (new_dev_desc.idVendor == VID_MICROSOFT && new_dev_desc.idProduct == PID_NUI_AUDIO) {
 								FN_SPEW("Matched VID/PID!\n");
 								libusb_device_handle* new_dev_handle;
 								// Open device
@@ -593,6 +575,7 @@ FN_INTERNAL int fnusb_control(fnusb_dev *dev, uint8_t bmRequestType, uint8_t bRe
 
 #ifdef BUILD_AUDIO
 FN_INTERNAL int fnusb_bulk(fnusb_dev *dev, uint8_t endpoint, uint8_t *data, int len, int *transferred) {
+	*transferred = 0;
 	return libusb_bulk_transfer(dev->dev, endpoint, data, len, transferred, 0);
 }
 

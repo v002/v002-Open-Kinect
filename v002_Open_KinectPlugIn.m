@@ -127,8 +127,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 @dynamic inputCorrectDepth;
 @dynamic inputCorrectColor;
 //@dynamic inputResolution;
-@dynamic inputDepthSmoothing;
-@dynamic inputNearMode;
+//@dynamic inputDepthSmoothing;
+//@dynamic inputNearMode;
 
 @dynamic outputColorImage;
 @dynamic outputDepthImage;
@@ -445,15 +445,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         [self setTiltDegs];
     }
     
-    if([self didValueForInputKeyChange:@"inputDepthSmoothing"])
-    {
-        [self setDepthSmoothing:self.inputDepthSmoothing];
-    }
-
-    if([self didValueForInputKeyChange:@"inputNearMode"])
-    {
-        [self setNearMode:self.inputNearMode];
-    }
+    // NOT UNTIL OFFICIAL API SUPPORT
+//    if([self didValueForInputKeyChange:@"inputDepthSmoothing"])
+//    {
+//        [self setDepthSmoothing:self.inputDepthSmoothing];
+//    }
+//
+//    if([self didValueForInputKeyChange:@"inputNearMode"])
+//    {
+//        [self setNearMode:self.inputNearMode];
+//    }
     
     if([self didValueForInputKeyChange:@"inputColorFormat"] || [self didValueForInputKeyChange:@"inputCorrectColor"])
     {
@@ -926,31 +927,32 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     });
 }
 
-- (void) setNearMode:(BOOL)near
-{
-    dispatch_async(kinectQueue, ^{
-        if(f_dev != NULL)
-        {            
-            if(near)
-                freenect_set_range_mode(f_dev, FREENECT_RANGE_NEAR_MODE);
-            else
-                freenect_set_range_mode(f_dev, FREENECT_RANGE_DEFAULT);
-        }
-    });
-}
-
-- (void) setDepthSmoothing:(BOOL)smooth
-{
-    dispatch_async(kinectQueue, ^{
-        if(f_dev != NULL)
-        {
-            if(smooth)
-                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_HOLE_FILLING_DEPTH_SMOOTHING_ENABLED);
-            else
-                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_DISABLED);
-        }
-    });
-}
+// NOT UNTIL OFFICIAL API SUPPORT
+//- (void) setNearMode:(BOOL)near
+//{
+//    dispatch_async(kinectQueue, ^{
+//        if(f_dev != NULL)
+//        {            
+//            if(near)
+//                freenect_set_range_mode(f_dev, FREENECT_RANGE_NEAR_MODE);
+//            else
+//                freenect_set_range_mode(f_dev, FREENECT_RANGE_DEFAULT);
+//        }
+//    });
+//}
+//
+//- (void) setDepthSmoothing:(BOOL)smooth
+//{
+//    dispatch_async(kinectQueue, ^{
+//        if(f_dev != NULL)
+//        {
+//            if(smooth)
+//                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_HOLE_FILLING_DEPTH_SMOOTHING_ENABLED);
+//            else
+//                freenect_set_smoothing_mode(f_dev, FREENECT_SMOOTHING_DISABLED);
+//        }
+//    });
+//}
 
 - (void) switchToColorMode
 {

@@ -117,8 +117,10 @@
 @property (readwrite, assign) NSUInteger inputDepthFormat;
 @property (readwrite, assign) BOOL inputCorrectDepth;
 @property (readwrite, assign) BOOL inputCorrectColor;
-@property (readwrite, assign) BOOL inputDepthSmoothing;
-@property (readwrite, assign) BOOL inputNearMode;
+
+// NOT UNTIL OFFICIAL API SUPPORT
+// @property (readwrite, assign) BOOL inputDepthSmoothing;
+// @property (readwrite, assign) BOOL inputNearMode;
 
 // @property (readwrite, assign) NSUInteger inputResolution;
 
