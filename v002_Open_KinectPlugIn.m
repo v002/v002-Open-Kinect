@@ -496,9 +496,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         textureHeight = textureSize.height;
         
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, rawDepthTexture);
-        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureWidth * textureHeight * sizeof(uint16), texturePointer);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
+//        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+//        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureWidth * textureHeight * sizeof(uint16), texturePointer);
+//        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
         glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, textureWidth, textureHeight, GL_LUMINANCE, GL_UNSIGNED_SHORT, texturePointer);
                 
         if(!self.useIRImageFormat)
@@ -539,8 +539,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         GLuint floatTexture = 0;
         glGenTextures(1, &floatTexture);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);    
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, floatTexture);
-        
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, floatTexture);        
         glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA32F_ARB, self.selectedResolutionDepth.width, self.selectedResolutionDepth.height, 0, GL_RGBA, GL_FLOAT, NULL); 
         
         // Color 8 Bit Texture
@@ -548,9 +547,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         glGenTextures(1, &rgbaTexture);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);    
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, rgbaTexture);
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA32F_ARB, self.selectedResolutionDepth.width, self.selectedResolutionDepth.height, 0, GL_RGBA, GL_FLOAT, NULL); 
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);        
-        
+        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, self.selectedResolutionDepth.width, self.selectedResolutionDepth.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);
+
         // Attach to our FBO
         glBindFramebuffer(GL_FRAMEBUFFER, fbo);
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE_ARB, floatTexture, 0);
@@ -564,7 +563,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             // and lets the x1600 work, but slower than it would otherwise
         
             glBindTexture(GL_TEXTURE_RECTANGLE_EXT, rgbaTexture);
-            glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, self.selectedResolutionDepth.width, self.selectedResolutionDepth.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+
+            glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA32F_ARB, self.selectedResolutionDepth.width, self.selectedResolutionDepth.height, 0, GL_RGBA, GL_FLOAT, NULL);
+
             glBindTexture(GL_TEXTURE_RECTANGLE_EXT, 0);        
         
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_RECTANGLE_ARB, floatTexture, 0);
@@ -653,14 +654,20 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
 		
+        // back to single buffer drawing
+        glDrawBuffer(GL_COLOR_ATTACHMENT0);
+        
         // Really don't see why we need this? Tom
-        //glFlushRenderAPPLE();	
+        glFlushRenderAPPLE();
                 
         // Restore State
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);	
         glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
         glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
                 
+        glPopClientAttrib();
+        glPopAttrib();
+
         // Image Providers
         id<QCPlugInOutputImageProvider> depthProvider = nil;
         depthProvider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatRGBAf
@@ -685,8 +692,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
                                                                          colorSpace:[context colorSpace]
                                                                    shouldColorMatch:YES];
         
-        glPopClientAttrib();
-        glPopAttrib();
+        
         
         self.outputColorImage = imageProvider;
         self.outputDepthImage = depthProvider;
@@ -872,9 +878,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 - (void) tearDownKinect
 {    
     // ensure teardown is syncronous
+    self.kinectInUse = NO;
     if(self.kinectInUse)
     {
-        self.kinectInUse = NO;
         self.needNewDepthImage = NO;
         self.needNewRGBImage = NO;
         
@@ -898,13 +904,13 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 {
     // Move to shorter timeout?
     struct timeval timeout;
-	timeout.tv_sec = 10; // was 60
+	timeout.tv_sec = 5; // was 60
 	timeout.tv_usec = 0; // was 0
     
     if(f_dev && f_ctx && self.kinectInUse)
     {
-        //if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
-        if(freenect_process_events(f_ctx) >= 0)
+        if(freenect_process_events_timeout(f_ctx, &timeout) >=0)
+        //if(freenect_process_events(f_ctx) >= 0)
         {
             double x,y,z;
             

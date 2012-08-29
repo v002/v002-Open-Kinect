@@ -23,6 +23,7 @@
 		1B5879931550AFF3006A9933 /* v002MasterPluginInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798E1550AFF3006A9933 /* v002MasterPluginInterface.m */; };
 		1B5879941550AFF3006A9933 /* v002Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5879901550AFF3006A9933 /* v002Shader.m */; };
 		1B8094EC15B5BA2B00CA3BCA /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */; };
+		1B999E5515BF65A000AFA262 /* icon.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B999E5415BF653700AFA262 /* icon.icns */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 7;
 			files = (
+				1B999E5515BF65A000AFA262 /* icon.icns in CopyFiles */,
 				1B05E5FD137AFF120032471B /* v002.OpenKinectDepth.vert in CopyFiles */,
 				1B05E5FE137AFF120032471B /* v002.OpenKinectDepth.frag in CopyFiles */,
 			);
@@ -89,6 +91,7 @@
 		1B5879911550AFF3006A9933 /* v002UniqueClassNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002UniqueClassNames.h; sourceTree = "<group>"; };
 		1B5879981550B119006A9933 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
+		1B999E5415BF653700AFA262 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* v002 Open Kinect.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "v002 Open Kinect.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -216,6 +219,7 @@
 		1B5879891550AFF3006A9933 /* v002 Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				1B999E5415BF653700AFA262 /* icon.icns */,
 				1B58798A1550AFF3006A9933 /* README.md */,
 				1B58798B1550AFF3006A9933 /* v002FBO.h */,
 				1B58798C1550AFF3006A9933 /* v002FBO.m */,
