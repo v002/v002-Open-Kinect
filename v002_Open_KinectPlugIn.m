@@ -496,9 +496,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         textureHeight = textureSize.height;
         
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, rawDepthTexture);
-//        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-//        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureWidth * textureHeight * sizeof(uint16), texturePointer);
-//        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
+        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+        glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, textureWidth * textureHeight * sizeof(uint16), texturePointer);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_ARB,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_SHARED_APPLE);
         glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, textureWidth, textureHeight, GL_LUMINANCE, GL_UNSIGNED_SHORT, texturePointer);
                 
         if(!self.useIRImageFormat)
