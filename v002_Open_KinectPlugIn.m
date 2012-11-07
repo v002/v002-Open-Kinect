@@ -878,7 +878,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 - (void) tearDownKinect
 {    
     // ensure teardown is syncronous
-    self.kinectInUse = NO;
     if(self.kinectInUse)
     {
         self.needNewDepthImage = NO;
@@ -896,6 +895,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         }
         
         f_dev = NULL;
+        self.kinectInUse = NO;
     }
 }
 
