@@ -20,7 +20,6 @@
 		1B5584651450CC860012DE4E /* usb_libusb10.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B55845D1450CC860012DE4E /* usb_libusb10.c */; };
 		1B56E8E812EE5E3D00240B43 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B56E8C912EE5BB400240B43 /* Accelerate.framework */; };
 		1B5879921550AFF3006A9933 /* v002FBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798C1550AFF3006A9933 /* v002FBO.m */; };
-		1B5879931550AFF3006A9933 /* v002MasterPluginInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798E1550AFF3006A9933 /* v002MasterPluginInterface.m */; };
 		1B5879941550AFF3006A9933 /* v002Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5879901550AFF3006A9933 /* v002Shader.m */; };
 		1B8094EC15B5BA2B00CA3BCA /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */; };
 		1B999E5515BF65A000AFA262 /* icon.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B999E5415BF653700AFA262 /* icon.icns */; };
@@ -332,7 +331,6 @@
 				1B5584641450CC860012DE4E /* tilt.c in Sources */,
 				1B5584651450CC860012DE4E /* usb_libusb10.c in Sources */,
 				1B5879921550AFF3006A9933 /* v002FBO.m in Sources */,
-				1B5879931550AFF3006A9933 /* v002MasterPluginInterface.m in Sources */,
 				1B5879941550AFF3006A9933 /* v002Shader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,6 +341,7 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_GC = supported;
@@ -367,6 +366,7 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_AUTO_VECTORIZATION = YES;
 				GCC_ENABLE_OBJC_GC = supported;
