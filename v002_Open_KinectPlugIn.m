@@ -430,13 +430,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         		
 //        CGLContextObj cgl_ctx = [context CGLContextObj];
         
-        dispatch_suspend(kinectTimer);
-
         [self aSyncTearDownKinect];
 
         [self aSyncSetupKinect];
-        
-        dispatch_resume(kinectTimer);
     }
 	
     if([self didValueForInputKeyChange:@"inputTilt"])
@@ -962,8 +958,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void) switchToColorMode
 {
-    dispatch_suspend(kinectTimer);
-
     dispatch_async(kinectQueue, ^{
         
         if(f_dev != NULL)
@@ -983,15 +977,11 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             freenect_set_depth_callback(f_dev, (freenect_depth_cb) &depth_cb);
             freenect_start_depth(f_dev);
         }
-
-        dispatch_resume(kinectTimer);
     });
 }
 
 - (void) switchToIRMode
-{
-    dispatch_suspend(kinectTimer);
-    
+{    
     dispatch_async(kinectQueue, ^{
         
         if(f_dev != NULL)
@@ -1008,8 +998,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             freenect_set_depth_callback(f_dev, (freenect_depth_cb) &depth_cb);
             freenect_start_depth(f_dev);
         }
-        
-        dispatch_resume(kinectTimer);
     });
 }
 
