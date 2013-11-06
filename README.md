@@ -8,4 +8,13 @@ License Questions, please see : http://v002.info/licenses/
 Download
 --------
 
-[v002 Open Kinect](http://v002.info/downloads/beta/v002%20Open%20Kinect.plugin.zip) (5 February 2013)
+Please download the [latest release](https://github.com/v002/v002-Open-Kinect/releases).
+
+Installation
+------------
+
+Install to
+
+    ~/Library/Graphics/Quartz Composer Plug-Ins
+
+The Library folder is hidden in modern versions of MacOS. Use the Go to Folder... command in the Finder's Go menu to access it.
