@@ -23,23 +23,18 @@
  * Binary distributions must follow the binary distribution requirements of
  * either License.
  */
-
-#ifndef FREENECT_INTERNAL_H
-#define FREENECT_INTERNAL_H
+#pragma once
 
 #include <stdint.h>
 
 #include "libfreenect.h"
-#include "libfreenect-registration.h"
-
-#ifdef BUILD_AUDIO
-#include "libfreenect-audio.h"
-#endif
+#include "libfreenect_registration.h"
+#include "libfreenect_audio.h"
 
 #ifdef __ELF__
-#define FN_INTERNAL	__attribute__ ((visibility ("hidden")))
+  #define FN_INTERNAL	__attribute__ ((visibility ("hidden")))
 #else
-#define FN_INTERNAL
+  #define FN_INTERNAL
 #endif
 
 
@@ -47,12 +42,23 @@ typedef void (*fnusb_iso_cb)(freenect_device *dev, uint8_t *buf, int len);
 
 #include "usb_libusb10.h"
 
+// needed to set the led state for non 1414 devices
+FN_INTERNAL int fnusb_set_led_alt(libusb_device_handle * dev, freenect_context * ctx, freenect_led_options state);
+
 struct _freenect_context {
 	freenect_loglevel log_level;
 	freenect_log_cb log_cb;
 	fnusb_ctx usb;
 	freenect_device_flags enabled_subdevices;
 	freenect_device *first;
+	int zero_plane_res;
+    
+    // if you want to load firmware from memory rather than disk
+    unsigned char *     fn_fw_nui_ptr;
+    unsigned int        fn_fw_nui_size;
+
+    unsigned char *     fn_fw_k4w_ptr;
+    unsigned int        fn_fw_k4w_size;
 };
 
 #define LL_FATAL FREENECT_LOG_FATAL
@@ -132,6 +138,14 @@ static inline int32_t fn_le32s(int32_t s)
 #define PID_NUI_AUDIO 0x02ad
 #define PID_NUI_CAMERA 0x02ae
 #define PID_NUI_MOTOR 0x02b0
+#define PID_K4W_CAMERA 0x02bf
+
+// For K4W: first pid is what it starts out as,
+// second is how it appears with lastest firmware from SDK,
+// third is from beta SDK firmware ( which is what is unpacked by the fw script and doesn't support motor control )
+#define PID_K4W_AUDIO 0x02be
+#define PID_K4W_AUDIO_ALT_1 0x02c3
+#define PID_K4W_AUDIO_ALT_2 0x02bb
 
 typedef struct {
 	int running;
@@ -145,6 +159,7 @@ typedef struct {
 	int frame_size;
 	int last_pkt_size;
 	int valid_pkts;
+	unsigned int lost_pkts;
 	int valid_frames;
 	int variable_length;
 	uint32_t last_timestamp;
@@ -156,7 +171,6 @@ typedef struct {
 	void *proc_buf;
 } packet_stream;
 
-#ifdef BUILD_AUDIO
 typedef struct {
 	int running;
 
@@ -196,8 +210,6 @@ typedef struct {
 	freenect_sample_51 samples[6];  // Audio samples - 6 samples per transfer
 } audio_out_block;
 
-#endif
-
 struct _freenect_device {
 	freenect_context *parent;
 	freenect_device *next;
@@ -210,6 +222,8 @@ struct _freenect_device {
 
 	freenect_depth_cb depth_cb;
 	freenect_video_cb video_cb;
+	freenect_chunk_cb depth_chunk_cb;
+	freenect_chunk_cb video_chunk_cb;
 	freenect_video_format video_format;
 	freenect_depth_format depth_format;
 	freenect_resolution video_resolution;
@@ -224,7 +238,6 @@ struct _freenect_device {
 	// Registration
 	freenect_registration registration;
 
-#ifdef BUILD_AUDIO
 	// Audio
 	fnusb_dev usb_audio;
 	fnusb_isoc_stream audio_out_isoc;
@@ -235,10 +248,11 @@ struct _freenect_device {
 
 	audio_stream audio;
 	uint32_t audio_tag;
-#endif
+
 	// Motor
 	fnusb_dev usb_motor;
 	freenect_raw_tilt_state raw_state;
+    
+	int device_does_motor_control_with_audio;
+	int motor_control_with_audio_enabled;
 };
-
-#endif

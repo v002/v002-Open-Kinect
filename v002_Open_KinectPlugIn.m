@@ -289,33 +289,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	return self;
 }
 
-- (void) finalize
-{
-    if(f_ctx)
-        freenect_shutdown(f_ctx);
-    
-    f_ctx = NULL;
-
-    // free local resources
-    free(self.IR);
-    free(self.rgb);
-    free(self.depth);
-    
-    free(self.textureIR);
-    free(self.textureRGB);
-    free(self.textureDepth);
-    
-    self.IR = NULL;
-    self.rgb = NULL;
-    self.depth = NULL;
-    
-    self.textureIR = NULL;
-    self.textureRGB = NULL;
-    self.textureDepth = NULL;
-
-	[super finalize];
-}
-
 - (void) dealloc
 {
     if(f_ctx)

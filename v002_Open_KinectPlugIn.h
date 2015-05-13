@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "libfreenect-audio.h"
-#import "libfreenect-registration.h"
 #import "libfreenect.h"
+#import "libfreenect_audio.h"
+#import "libfreenect_registration.h"
 
 #import <OpenGL/OpenGL.h>
 #import <Quartz/Quartz.h>
