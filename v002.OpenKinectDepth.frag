@@ -56,7 +56,6 @@ const float fy_d = 591.04053696870778;
 const float cx_d = 339.30780975300314;
 const float cy_d = 242.73913761751615;
 
-
 float convertToDepth(float z)
 {
     return k3 * tan(z/k2 + k1); 
@@ -97,14 +96,12 @@ void main(void)
     color.a = 1.0;
 
     vec4 final = mix(raw, correctedDepth, correctDepth); 
-    
 	
 	// Now we have to do some subtle coordinate shifting to ensure we output centered, etc
 	final = trans * rotY * rotZ * final;
 
     // Do we output just luma, or XYZ?
     final = mix(vec4(vec3(correctedDepth.z), 1.0), final, generatePositionMap); // final
-
 
     gl_FragData[0] = final;
     gl_FragData[1] = clamp(color, 0.0, 1.0);

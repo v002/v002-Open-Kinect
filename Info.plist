@@ -25,6 +25,7 @@
 	<key>QCPlugInClasses</key>
 	<array>
 		<string>v002_Open_KinectPlugIn</string>
+		<string>v002_Open_Kinect_FurthestDepthImagePlugIn</string>
 	</array>
 </dict>
 </plist>

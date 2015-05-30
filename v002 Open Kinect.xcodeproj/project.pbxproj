@@ -24,6 +24,7 @@
 		1B578C3E1B02ED5C00D76F62 /* libusb-1.0.0.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1B5879921550AFF3006A9933 /* v002FBO.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B58798C1550AFF3006A9933 /* v002FBO.m */; };
 		1B5879941550AFF3006A9933 /* v002Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5879901550AFF3006A9933 /* v002Shader.m */; };
+		1B5FE4FD1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5FE4FC1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.m */; };
 		1B8094EC15B5BA2B00CA3BCA /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */; };
 		1B999E5515BF65A000AFA262 /* icon.icns in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1B999E5415BF653700AFA262 /* icon.icns */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -94,6 +95,8 @@
 		1B5879901550AFF3006A9933 /* v002Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002Shader.m; sourceTree = "<group>"; };
 		1B5879911550AFF3006A9933 /* v002UniqueClassNames.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002UniqueClassNames.h; sourceTree = "<group>"; };
 		1B5879981550B119006A9933 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		1B5FE4FB1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002_Open_Kinect_FurthestDepthImagePlugIn.h; sourceTree = "<group>"; };
+		1B5FE4FC1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002_Open_Kinect_FurthestDepthImagePlugIn.m; sourceTree = "<group>"; };
 		1B8094EB15B5BA2B00CA3BCA /* libusb-1.0.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = "libusb-1.0.0.dylib"; sourceTree = "<group>"; };
 		1B999E5415BF653700AFA262 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* v002 Open Kinect.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "v002 Open Kinect.plugin"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -159,6 +162,8 @@
 				1B05E6AD137B09300032471B /* libusb */,
 				16BA95400A7EB2EB001E4983 /* v002_Open_KinectPlugIn.h */,
 				16BA95410A7EB2EB001E4983 /* v002_Open_KinectPlugIn.m */,
+				1B5FE4FB1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.h */,
+				1B5FE4FC1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				1B578C361B02ECE200D76F62 /* audio.c in Sources */,
 				1B578C391B02ECE200D76F62 /* flags.c in Sources */,
 				1B5879941550AFF3006A9933 /* v002Shader.m in Sources */,
+				1B5FE4FD1B20E5FF00EED2A1 /* v002_Open_Kinect_FurthestDepthImagePlugIn.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
