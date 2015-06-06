@@ -7,7 +7,7 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>03945901-4B28-47C0-A1DD-48CB1CBDB5F1</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>v002 Open Kinect</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>3B7506CE1E10414ED484959AA4C4CE7EDCF60BA6</key>
@@ -16,7 +16,7 @@
 		<string>https://github.com/v002/v002-Open-Kinect.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>v002 Open Kinect.xcodeproj/project.xcworkspace</string>
+	<string>v002 Open Kinect.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>3B7506CE1E10414ED484959AA4C4CE7EDCF60BA6</key>
